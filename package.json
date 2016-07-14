@@ -2,7 +2,7 @@
   "name": "itinerary",
   "version": "0.0.1",
   "description": "web app for sharing itineraries and creating travel plans",
-  "main": "server/app.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": "node test/test.js"
