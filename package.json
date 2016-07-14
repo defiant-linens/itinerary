@@ -4,7 +4,8 @@
   "description": "web app for sharing itineraries and creating travel plans",
   "main": "app.js",
   "scripts": {
-    "start": "babel client/components --watch --out-dir public/components --presets=es2015,react --source-maps inline && nodemon app.js",
+    "start": "npm build & nodemon app.js &",
+    "build":"babel client/components --watch --out-dir public/components --presets=es2015,react --source-maps inline",
     "test": "node test/test.js"
   },
   "repository": {
