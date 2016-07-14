@@ -1,0 +1,23 @@
+{
+  "name": "itinerary",
+  "version": "0.0.1",
+  "description": "web app for sharing itineraries and creating travel plans",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/defiant-linens/itinerary.git"
+  },
+  "author": "defiant-linens",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/defiant-linens/itinerary/issues"
+  },
+  "homepage": "https://github.com/defiant-linens/itinerary#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
