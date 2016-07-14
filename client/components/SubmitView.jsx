@@ -7,7 +7,7 @@ class SubmitView extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.onSubmit}>
+        <form>
           <label>
             Name: 
             <input type='text'></input>
@@ -27,6 +27,8 @@ class SubmitView extends React.Component {
             Overview: 
             <textarea type='text'></textarea>
           </label>
+
+          <DaySubmitView />
 
           <input type='submit' value='Submit'></input>
         </form>
