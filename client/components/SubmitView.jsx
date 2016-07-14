@@ -1,9 +1,5 @@
 class SubmitView extends React.Component {
 
-  // onSubmit(e) {
-  //   console.log(e);
-  // }
-
   render() {
     return (
       <div>
