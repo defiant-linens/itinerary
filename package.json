@@ -4,7 +4,7 @@
   "description": "web app for sharing itineraries and creating travel plans",
   "main": "server/app.js",
   "scripts": {
-    "start": "npm start",
+    "start": "node app.js",
     "test": "node test/test.js"
   },
   "repository": {
