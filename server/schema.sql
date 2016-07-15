@@ -10,7 +10,7 @@ CREATE TABLE users (
 
 CREATE TABLE itineraries (
   id int NOT NULL auto_increment,
-  location varchar (100),
+  location varchar (100) NOT NULL,
   userID int NOT NULL,
   numDays int NOT NULL,
   startDate date,
@@ -23,7 +23,7 @@ CREATE TABLE itineraries (
 CREATE TABLE events (
   id int NOT NULL auto_increment,
   day int NOT NULL,
-  location varchar (100),
+  location varchar (100) NOT NULL,
   itineraryID int NOT NULL,
   FOREIGN KEY (itineraryID) REFERENCES itineraries(id),
   PRIMARY KEY (id)
