@@ -9,7 +9,9 @@ var sequelize = new Sequelize('wonderwander', 'root', null, {
     idle: 1000
   },
   define: {
-    allowNull: false // Adds NOT NULL to all values by default
+    timestamps: false,
+    // allowNull: false // Adds NOT NULL to all values by default
+    // notNull: true
   }
 });
 
@@ -41,7 +43,8 @@ var User = sequelize.define('User', {
   //   autoIncrement: true,
   // },
   name: { 
-    type: Sequelize.STRING(25)
+    type: Sequelize.STRING(25),
+    allowNull: false
   }
 });
 
@@ -52,8 +55,14 @@ var Itinerary = sequelize.define('Itinerary', {
   //   primaryKey: true,
   //   autoIncrement: true
   // },
-  location: Sequelize.STRING(100),
-  numDays: Sequelize.INTEGER,
+  location: {
+    type: Sequelize.STRING(100),
+    allowNull: false
+  },
+  numDays: { 
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
   startDate: {
     type: Sequelize.DATEONLY,
     allowNull: true
@@ -75,8 +84,14 @@ var Event = sequelize.define('Event', {
   //   primaryKey: true,
   //   autoIncrement: true
   // },
-  day: Sequelize.INTEGER,
-  location: Sequelize.STRING(100)
+  day: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  location: {
+    type: Sequelize.STRING(100),
+    allowNull: false
+  }
 });
 
 User.hasMany(Itinerary);

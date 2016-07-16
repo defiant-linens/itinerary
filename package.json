@@ -4,8 +4,8 @@
   "description": "web app for sharing itineraries and creating travel plans",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "build":"babel client/components --watch --out-dir public/components --presets=es2015,react --source-maps inline",
+    "start": "nodemon server/app.js",
+    "build": "babel client/components --watch --out-dir public/components --presets=es2015,react --source-maps inline",
     "test": "node test/test.js"
   },
   "repository": {
@@ -22,6 +22,7 @@
     "babel": "^6.5.2",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "mysql": "^2.11.1",
     "sequelize": "^3.23.4"

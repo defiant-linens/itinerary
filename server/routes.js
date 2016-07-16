@@ -1,17 +1,17 @@
-var db = require('./db');
+var controllers = require('./controllers');
 var router = require('express').Router();
 
 // Connect dbs methods to their corresponding routes
-router.get('/users', db.users.get);
+router.get('/users', controllers.users.get);
 
-router.post('/users', db.users.post);
+router.post('/users', controllers.users.post);
 
-router.get('/itineraries', db.itineraries.get);
+router.get('/itineraries', controllers.itineraries.get);
 
-router.post('/itineraries', db.itineraries.post);
+router.post('/itineraries', controllers.itineraries.post);
 
-router.get('/events', db.events.get);
+router.get('/events', controllers.events.get);
 
-router.post('/events', db.events.post);
+router.post('/events', controllers.events.post);
 
 module.exports = router;
