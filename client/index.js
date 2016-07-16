@@ -1,1 +1,1 @@
-ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
+ReactDOM.render(<App itineraries={window.testData} />, document.getElementById('app'));
