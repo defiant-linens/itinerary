@@ -117,7 +117,7 @@ sequelize
 exports.User = User;
 exports.Itinerary = Itinerary;
 exports.Event = Event;
-sequelize.sync();
+// sequelize.sync();
 
 // var mysql = require('mysql');
 

@@ -4,23 +4,27 @@ var parser = require('body-parser');
 module.exports = {
   users: {
     get: function(req, res) {
-      User.findAll({})
+      db.User.findAll({})
       .then(function(users) {
-        res.send(users);
+        res.json(users);
       });
     },
     post: function(req, res) {
-      User.create({name: req.body.name})
-      .then(function(users) {
-        res.send(users);
+      db.User.findOrCreate({ where: {username: req.body.username }})
+      .spread(function(user, created) {
+        res.sendStatus(created ? 201: 200);
       });
+      // User.create({name: req.body.name})
+      // .then(function(users) {
+      //   res.send(users);
+      // });
     }
   },
   itineraries: {
     get: function(req, res) {
-      Itinerary.findAll({})
+      db.Itinerary.findAll({})
       .then(function(itineraries) {
-        res.send(itineraries);
+        res.json(itineraries);
       });
     },
     post: function(req, res) {
@@ -30,7 +34,7 @@ module.exports = {
         }
       })
       .then(function(user) {
-        return Itinerary.create({
+        return db.Itinerary.create({
           location: req.body.location,
           userId: user.get('id'),
           numDays: req.body.numDays,
@@ -46,8 +50,8 @@ module.exports = {
   },
   events: {
     get: function(req, res) {
-      Event.findAll({}).then(function(events) {
-        res.send(events);
+      db.Event.findAll({}).then(function(events) {
+        res.json(events);
       });
     },
     post: function(req, res) {
@@ -57,7 +61,7 @@ module.exports = {
         }
       })
       .then(function(event) {
-        Event.create({
+        db.Event.create({
           day: req.body.day,
           location: req.body.location,
           itineraryId: event.get('id')
