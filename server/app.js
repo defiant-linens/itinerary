@@ -17,7 +17,7 @@ app.use(parser.json());
 app.use('/classes', router);
 
 // Serve the client files
-app.use(express.static(__dirname + '/../client'));
+app.use(express.static(__dirname + '/../public'));
 
 var url = process.env.PORT || 3000;
 app.listen(url, function () {
