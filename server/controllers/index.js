@@ -28,7 +28,8 @@ module.exports = {
       });
     },
     post: function(req, res) {
-      User.findOne({
+      console.log('Incoming post request!');
+      db.User.findOne({
         where: {
           name: req.body.user
         }
