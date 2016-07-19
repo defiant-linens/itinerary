@@ -1,34 +1,11 @@
-// Awkward importing of dependencies
-var Router = ReactRouter.Router,
-    hashHistory = ReactRouter.hashHistory,
-    Route = ReactRouter.Route,
-    IndexRoute = ReactRouter.IndexRoute,
-    Home = ReactRouter.Home,
-    Link = ReactRouter.Link;
+var App = props => (
+  <div>
+    <h1>Wonder Wander</h1>
+    <ul>
+      <li><Link to='/itineraries'>'Itineraries'</Link></li>
+      <li><Link to='/submit'>'Create new itinerary'</Link></li>
+    </ul>
+    {props.children}
+  </div>
+);
 
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Wonder Wander</h1>
-
-        <ul>
-          <li><Link to='/itineraries'>'Itineraries'</Link></li>
-          <li><Link to='/submit'>'Create new itinerary'</Link></li>
-        </ul>
-
-        {this.props.children}
-      </div>
-    )
-  }
-}
-
-ReactDOM.render((
-  <Router history={hashHistory}>
-    <Route path='/' component={App}>
-      <IndexRoute component={Home} />
-      <Route path='itineraries' component={ItineraryView}/>
-      <Route path='submit' component={SubmitView} />
-    </Route>
-  </Router>
-), document.body)
