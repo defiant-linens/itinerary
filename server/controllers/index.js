@@ -1,4 +1,4 @@
-var db = require('../db/index');
+var db = require('../db');
 var parser = require('body-parser');
 
 module.exports = {
