@@ -4,9 +4,9 @@ class SubmitView extends React.Component {
     super(props);
 
     this.state = {
-      name: '',
+      user: '',
       location: '',
-      days: 0,
+      numDays: 0,
       overview: '',
       event1: '',
       event2: '',
@@ -25,11 +25,7 @@ class SubmitView extends React.Component {
         body: JSON.stringify(data)
       }, this)
         .then(res => {
-          return res.json();
-        })
-        .then(json => {
-          console.log(json);
-          this.setState('itineraries', json);
+          console.log('Successful clientside POST-request');
         })
         .catch(err => {
           console.log(err);
@@ -39,7 +35,20 @@ class SubmitView extends React.Component {
     this.saveItinerary = event => {
       event.preventDefault();
       console.log(event);
-      this.serverRequest('http://localhost:3000/classes/itineraries', event);
+      var data = {
+        user: this.state.user,
+        location: this.state.location,
+        numDays: parseInt(this.state.numDays, 10),
+        overview: this.state.overview
+      };
+      this.serverRequest('http://localhost:3000/classes/itineraries', data);
+    };
+
+    this.handleInputChange = event => {
+      console.log(event.target.id);
+      var newState = {};
+      newState[event.target.id] = event.target.value;
+      this.setState(newState);
     };
   }
 
@@ -49,22 +58,22 @@ class SubmitView extends React.Component {
         <form onSubmit={this.saveItinerary}>
           <label>
             Name:
-            <input type='text' value={this.state.name} onChange={this.handleNameChange}></input>
+            <input type='text' value={this.state.user} onChange={this.handleInputChange} id="user"></input>
           </label>
 
           <label>
             Location:
-            <input type='text' value={this.state.location} onChange={this.handleLocationChange}></input>
+            <input type='text' value={this.state.location} onChange={this.handleInputChange} id="location"></input>
           </label>
 
           <label>
             Number of Days:
-            <input type='text' value={this.state.days} onChange={this.handleDaysChange}></input>
+            <input type='text' value={this.state.numDays} onChange={this.handleInputChange} id="numDays"></input>
           </label>
 
           <label>
             Overview:
-            <textarea type='text' value={this.state.overview} onChange={this.handleOverviewChange}></textarea>
+            <textarea type='text' value={this.state.overview} onChange={this.handleInputChange} id="overview"></textarea>
           </label>
 
           <DaySubmitView />
