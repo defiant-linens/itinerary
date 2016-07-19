@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('wonderwander', 'root', 'heloter', {
+var sequelize = new Sequelize('wonderwander', 'root', null, {
   dialect: 'mysql',
   host: 'localhost',
   port: 3306,
