@@ -6,6 +6,8 @@ class SubmitView extends React.Component {
     this.state = {
       user: '',
       location: '',
+      startDate: '',
+      endDate: '',
       numDays: 0,
       overview: '',
       event1: '',
@@ -38,6 +40,8 @@ class SubmitView extends React.Component {
       var data = {
         user: this.state.user,
         location: this.state.location,
+        startDate: this.state.startDate,
+        endDate: this.state.endDate,
         numDays: parseInt(this.state.numDays, 10),
         overview: this.state.overview
       };
@@ -64,6 +68,16 @@ class SubmitView extends React.Component {
           <label>
             Location:
             <input type='text' value={this.state.location} onChange={this.handleInputChange} id="location"></input>
+          </label>
+
+          <label>
+            Start Date:
+            <input type='date' value={this.state.start} onChange={this.handleInputChange} id="startDate"></input>
+          </label>
+
+          <label>
+            End Date:
+            <input type='date' value={this.state.end} onChange={this.handleInputChange} id="endDate"></input>
           </label>
 
           <label>
