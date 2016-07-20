@@ -6,6 +6,8 @@ class SubmitView extends React.Component {
     this.state = {
       user: '',
       location: '',
+      start: '',
+      end: '',
       numDays: 0,
       overview: '',
       event1: '',
