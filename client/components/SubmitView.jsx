@@ -67,6 +67,16 @@ class SubmitView extends React.Component {
           </label>
 
           <label>
+            Start Date:
+            <input type='date' value={this.state.start} onChange={this.handleInputChange} id="start"></input>
+          </label>
+
+          <label>
+            End Date:
+            <input type='date' value={this.state.end} onChange={this.handleInputChange} id="end"></input>
+          </label>
+
+          <label>
             Number of Days:
             <input type='text' value={this.state.numDays} onChange={this.handleInputChange} id="numDays"></input>
           </label>
