@@ -7,11 +7,12 @@ var Router = ReactRouter.Router,
     Link = ReactRouter.Link;
 
 ReactDOM.render((
-    <Router history={hashHistory}>
+  <Router history={hashHistory}>
     <Route path='/' component={App}>
-    <IndexRoute component={Home} />
-    <Route path='itineraries' component={ItineraryView} itineraries={window.testData}/>
-    <Route path='submit' component={SubmitView} />
+      <IndexRoute component={Home} />
+      <Route path='login' component={LoginView} />
+      <Route path='itineraries' component={ItineraryView} itineraries={window.testData}/>
+      <Route path='submit' component={SubmitView} />
     </Route>
-    </Router>
+  </Router>
 ), document.body);
