@@ -27,7 +27,7 @@ class ItineraryView extends React.Component {
         })
         .then(json => {
           console.log(json);
-          this.setState('itineraries', json);
+          this.setState({itineraries: json});
         })
         .catch(err => {
           console.log(err);
@@ -37,7 +37,7 @@ class ItineraryView extends React.Component {
   render() {
     return (
       <div className="itineraries">
-        {this.props.route.itineraries.itineraries.map(itinerary => <Summary data={itinerary} />)}
+        {this.state.itineraries.map(itinerary => <Summary data={itinerary} />)}
       </div>
     );
   }

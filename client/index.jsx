@@ -10,7 +10,7 @@ ReactDOM.render((
     <Router history={hashHistory}>
     <Route path='/' component={App}>
     <IndexRoute component={Home} />
-    <Route path='itineraries' component={ItineraryView} itineraries={window.testData}/>
+    <Route path='itineraries' component={ItineraryView} />
     <Route path='submit' component={SubmitView} />
     </Route>
     </Router>
