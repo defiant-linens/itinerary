@@ -1,5 +1,8 @@
 var db = require('../db');
 var parser = require('body-parser');
+var bcrypt = require('bcrypt-nodejs');
+var Promise = require('bluebird');
+var cipher = Promise.promisify(bcrypt.hash);
 
 module.exports = {
   users: {
@@ -10,14 +13,32 @@ module.exports = {
       });
     },
     post: function(req, res) {
-      db.User.findOrCreate({ where: {username: req.body.username }})
-      .spread(function(user, created) {
-        res.sendStatus(created ? 201: 200);
-      });
-      // User.create({name: req.body.name})
-      // .then(function(users) {
-      //   res.send(users);
-      // });
+      cipher(req.body.password, null, null)
+      .then(function(hashPassword) {
+        db.User.findOrCreate({
+          where: {name: req.body.username },
+          defaults: {
+            name: req.body.username,
+            password: hashPassword
+          }
+        })
+        .spread(function(user, created) {
+          if(created) {
+            console.log('created');
+            res.sendStatus(201);
+            // Redirect to index?
+          } else {
+            console.log('user already exists!', user);
+            res.sendStatus(403);
+            // Possible redirection?
+          } 
+        });
+      })
+      .catch(function(err) {
+        if (err) {
+          console.log('didn\'t work!', err);
+        }
+      }); // Needed?
     }
   },
   itineraries: {
