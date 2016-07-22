@@ -37,7 +37,7 @@ module.exports = {
       .then(function(user) {
         return db.Itinerary.create({
           location: req.body.location,
-          userId: user.get('id'),
+          UserId: user.dataValues.id,
           numDays: req.body.numDays,
           startDate: req.body.startDate,
           endDate: req.body.endDate,
