@@ -40,7 +40,7 @@ class SignupView extends React.Component {
         username: this.state.username,
         password: this.state.password
       };
-      this.serverRequest('http://localhost:3000/classes/users', data);
+      this.serverRequest('http://localhost:3000/classes/signup', data);
     };
 
   }

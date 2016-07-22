@@ -45,6 +45,10 @@ var User = sequelize.define('User', {
   name: { 
     type: Sequelize.STRING(25),
     allowNull: false
+  },
+  password: {
+    type: Sequelize.STRING(100),
+    allowNull: false
   }
 });
 

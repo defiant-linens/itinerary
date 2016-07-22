@@ -1,9 +1,9 @@
 var express = require('express');
+var session = require('express-session');
 var db = require('./db');
 
 // Middleware
 var parser = require('body-parser');
-
 
 // Routes
 var router = require('./routes.js');
@@ -12,6 +12,12 @@ var app = express();
 module.exports.app = app;
 
 app.use(parser.json());
+
+app.use(session({
+  secret: 'shhh, it\'s a secret',
+  resave: false,
+  saveUninitialized: true
+}));
 
 // Set up our routes
 app.use('/classes', router);
