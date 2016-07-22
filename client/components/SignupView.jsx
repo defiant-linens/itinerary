@@ -28,7 +28,6 @@ class SignupView extends React.Component {
     }.bind(this);
 
     this.handleInputChange = event => {
-      console.log(event.target.id);
       var newState = {};
       newState[event.target.id] = event.target.value;
       this.setState(newState);
@@ -41,7 +40,7 @@ class SignupView extends React.Component {
         username: this.state.username,
         password: this.state.password
       };
-      this.serverRequest('http://localhost:3000/classes/signup', data);
+      this.serverRequest('http://localhost:3000/classes/users', data);
     };
 
   }
