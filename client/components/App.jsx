@@ -1,13 +1,12 @@
 var App = props => (
   <div>
-    <h1>Wonder Wander</h1>
-    <ul>
-      <li><Link to='/submit'>'Create new itinerary'</Link></li>
-      <li><Link to='/login'>'Login'</Link></li>
-      <li><Link to='/signup'>'Sign up'</Link></li>
-      <li><Link to='/landing'>'Landing'</Link></li>
-    </ul>
+    <header> 
+      <h1>Wonder Wander</h1>
+      <nav>
+        <button><Link to='/login'>'Log in'</Link></button>
+        <button><Link to='/signup'>'Sign up'</Link></button>
+      </nav>
+    </header>
     {props.children}
   </div>
 );
-
