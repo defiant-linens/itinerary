@@ -16,6 +16,7 @@ ReactDOM.render((
       <Route path='login' component={LoginView} />
       <Route path='submit' component={SubmitView} />
       <Route path='landing' component={LandingView} />
+      <Route path='choose-planner' component={ChoosePlannerView} />
     </Route>
   </Router>
 ), document.body);
