@@ -53,7 +53,7 @@ module.exports = {
         .spread(function(user, created) {
           if(created) {
             console.log('created');
-            res.sendStatus(201);
+            util.createSession(req, res, user);
             // Redirect to index?
           } else {
             console.log('user already exists!', user);
