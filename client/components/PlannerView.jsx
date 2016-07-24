@@ -1,6 +1,3 @@
-// Temporary until we figure out a better way to pass (props via Links?)
-window.itineraryID = 1;
-
 class PlannerView extends React.Component {
 
   constructor(props) {
