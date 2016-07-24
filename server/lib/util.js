@@ -1,20 +1,17 @@
 var createSession = function(req, res, newUser) {
   return req.session.regenerate(function() {
-    req.session.user = newUser;
+    req.session.loggedIn = true;
     req.session.save(function(err) {
 	    console.log('in util', req.session);
-	    res.send('logged in');
-	    // res.redirect('/');
+	    res.set('Set-Cookie', 'a cookie');
+	    res.sendStatus(201);
     });
   })
 }
 
 var checkUser = function(req, res, next) {
-	// req.session.destroy();
-	// req.session = null;
-	// console.log('session destroyed');
 	console.log('checkUser', req.session);
-	if (!req.session.user) {
+	if (!req.session.loggedIn) {
 		console.log('no session');
 		res.sendStatus(403);
 	} else {
