@@ -16,7 +16,8 @@ app.use(parser.json());
 app.use(session({
   secret: 'shhh, it\'s a secret',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  cookie: { secure: false }
 }));
 
 // Set up our routes

@@ -44,6 +44,11 @@ class LoginView extends React.Component {
       this.serverRequest('http://localhost:3000/classes/login', data);
     };
 
+    this.logout = event => {
+      console.log('logging out');
+      this.serverRequest('http://localhost:3000/classes/logout');
+    }
+
   }
 
   render() {
@@ -57,6 +62,7 @@ class LoginView extends React.Component {
           <input id="password" type="text" onChange={this.handleInputChange} />
           <input type="submit" value="Save" />
         </form>
+        <p onClick={this.logout}>Logout</p>
       </div>
     );
   };
