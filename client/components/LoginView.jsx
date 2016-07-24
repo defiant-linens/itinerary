@@ -16,11 +16,12 @@ class LoginView extends React.Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
+        credentials: 'same-origin',
         method: method,
         body: JSON.stringify(data)
       }, this)
         .then(res => {
-          console.log('Successful clientside POST-request');
+          console.log('Successful clientside POST-request', res);
         })
         .catch(err => {
           console.log(err);

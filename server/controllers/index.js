@@ -78,15 +78,6 @@ module.exports = {
           res.sendStatus(200);
         }
       })
-      // if (req.session) {
-      //   // req.session.destroy();
-      //   req.session = null;
-      //   console.log('logout successful');
-      //   res.sendStatus(200);
-      // } else {
-      //   console.log('already logged out');
-      //   res.sendStatus(204);
-      // }
     }
   },
   itineraries: {
@@ -104,6 +95,7 @@ module.exports = {
         }
       })
       .then(function(user) {
+        console.log(user.dataValues.id);
         return db.Itinerary.create({
           location: req.body.location,
           UserId: user.dataValues.id,
