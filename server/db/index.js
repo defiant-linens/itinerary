@@ -36,12 +36,12 @@ var sequelize = new Sequelize('wonderwander', 'root', null, {
 
 // Define Tables
 var User = sequelize.define('User', {
-  id: {
-    type: Sequelize.INTEGER,
-    unique: true,
-    primaryKey: true,
-    autoIncrement: true,
-  },
+  // id: {
+  //   type: Sequelize.INTEGER,
+  //   unique: true,
+  //   primaryKey: true,
+  //   autoIncrement: true,
+  // },
   name: { 
     type: Sequelize.STRING(25),
     allowNull: false
@@ -53,12 +53,12 @@ var User = sequelize.define('User', {
 });
 
 var Itinerary = sequelize.define('Itinerary', {
-  id: {
-    type: Sequelize.INTEGER,
-    unique: true,
-    primaryKey: true,
-    autoIncrement: true
-  },
+  // id: {
+  //   type: Sequelize.INTEGER,
+  //   unique: true,
+  //   primaryKey: true,
+  //   autoIncrement: true
+  // },
   location: {
     type: Sequelize.STRING(100),
     allowNull: false
@@ -78,21 +78,16 @@ var Itinerary = sequelize.define('Itinerary', {
   overview: {
     type: Sequelize.TEXT('long'),
     allowNull: true
-  }/*,
-  userID: {
-    type: Sequelize.INTEGER,
-    references: 'Users',
-    referencesKey: 'id'
-  }*/
+  }
 });
 
 var Event = sequelize.define('Event', {
-  id: {
-    type: Sequelize.INTEGER,
-    unique: true,
-    primaryKey: true,
-    autoIncrement: true
-  },
+  // id: {
+  //   type: Sequelize.INTEGER,
+  //   unique: true,
+  //   primaryKey: true,
+  //   autoIncrement: true
+  // },
   day: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -100,25 +95,20 @@ var Event = sequelize.define('Event', {
   location: {
     type: Sequelize.STRING(100),
     allowNull: false
-  }/*,
-  itineraryId: {
-    type: Sequelize.INTEGER,
-    references: 'Itineraries',
-    referencesKey: 'id'
-  }*/
+  }
 });
 
-User.hasMany(Itinerary, {foreignKey: 'userId', onDelete: 'cascade', hooks: true});
+User.hasMany(Itinerary);
 
-Itinerary.belongsTo(User, {foreignKey: 'userId', hooks: true});
+Itinerary.belongsTo(User);
 
-Itinerary.hasMany(Event, {foreignKey: 'itineraryId', onDelete: 'cascade', hooks: true});
+Itinerary.hasMany(Event);
 
-Event.belongsTo(Itinerary, {foreignKey: 'itineraryId', hooks: true});
+Event.belongsTo(Itinerary);
 
 User.sync();
-Itinerary.sync();
 Event.sync();
+Itinerary.sync();
 
 sequelize
   .authenticate()
