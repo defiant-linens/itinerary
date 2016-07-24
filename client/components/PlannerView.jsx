@@ -1,4 +1,4 @@
-// Temporary until we figure out how to pass props via Links
+// Temporary until we figure out a better way to pass (props via Links?)
 window.itineraryID = 1;
 
 class PlannerView extends React.Component {
@@ -6,8 +6,8 @@ class PlannerView extends React.Component {
   constructor(props) {
     super(props);
 
-    // Hard code for now
     this.state = {
+      // Hard code for now, need to make a get request to find location, days associated with the itinerary ID
       location: 'San Francisco',
       days: 3,
       events: // We'll need a get request here (?) to find all events associated with the itineraryID 
@@ -38,8 +38,8 @@ class PlannerView extends React.Component {
     return (
       <div>
         <h4>Your trip to {this.state.location}.</h4>
+        // Loop through DayView, passing in as props the day number and events associated with that day
         <DayView />
-        // Loop through dayviews, passing in to props the day number and the events associated with that day
       </div>
     );
   }
