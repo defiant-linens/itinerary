@@ -104,7 +104,7 @@ class ChoosePlannerView extends React.Component {
         </form>
 
         <div className='planner-prefs'>
-          <button onClick={this.saveItinerary}><Link to='/'>Blank Itinerary</Link></button>
+          <button onClick={this.saveItinerary}><Link to='/planner'>Blank Itinerary</Link></button>
           <button onClick={this.saveItinerary}><Link to='/'>Preference-Based Itinerary</Link></button>
           <button onClick={this.saveItinerary}><Link to='/'>Complete Itinerary</Link></button>
         </div>

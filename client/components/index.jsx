@@ -14,9 +14,9 @@ ReactDOM.render((
       <IndexRedirect to="/landing" />
       <Route path='signup' component={SignupView} />
       <Route path='login' component={LoginView} />
-      <Route path='submit' component={SubmitView} />
       <Route path='landing' component={LandingView} />
       <Route path='choose-planner' component={ChoosePlannerView} />
+      <Route path='planner' component={PlannerView} />
     </Route>
   </Router>
 ), document.body);
