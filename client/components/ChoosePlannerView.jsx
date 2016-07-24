@@ -4,7 +4,7 @@ class ChoosePlannerView extends React.Component {
     super(props);
 
     this.state = {
-      user: 'vincent',
+      user: 'kelli',
       location: '',
       startDate: '',
       endDate: '',
@@ -26,6 +26,10 @@ class ChoosePlannerView extends React.Component {
       }, this)
         .then(res => {
           console.log('Successful clientside POST-request');
+          return res.json();
+        })
+        .then(json => {
+          window.newItinerary = json.id;
         })
         .catch(err => {
           console.log(err);
@@ -72,7 +76,7 @@ class ChoosePlannerView extends React.Component {
       }
 
       return (numDays && numDays > 0) ? numDays : 0;
-    }
+    };
   }
 
   render() {
