@@ -46,11 +46,32 @@ class ChoosePlannerView extends React.Component {
     };
 
     this.handleInputChange = event => {
-      console.log(event.target.id);
+      var targetID = event.target.id;
+      var targetValue = event.target.value;
+
       var newState = {};
-      newState[event.target.id] = event.target.value;
-      this.setState(newState);
+      newState[targetID] = targetValue;
+
+      // Calculate the number of days in the itinerary
+      this.setState(newState, function() {
+        if (targetID === 'startDate' || targetID === 'endDate') {
+          this.setState({numDays: this.getDateDiff()});
+        }        
+      });
     };
+
+    this.getDateDiff = () => {
+      var start = this.state.startDate;
+      var end = this.state.endDate;
+
+      if (start && end) {
+        var startDate = new Date(start.slice(0,4), start.slice(5,7), start.slice(8,10), 0, 0, 0, 0);
+        var endDate = new Date(end.slice(0,4), end.slice(5,7), end.slice(8,10), 0, 0, 0, 0);
+        var numDays = 1 + (endDate.getTime() - startDate.getTime())/(1000 * 60 * 60 * 24);
+      }
+
+      return (numDays && numDays > 0) ? numDays : 0;
+    }
   }
 
   render() {
@@ -66,11 +87,6 @@ class ChoosePlannerView extends React.Component {
           </label>
 
           <label>
-            Number of Days:
-            <input type='text' value={this.state.numDays} onChange={this.handleInputChange} id="numDays"></input>
-          </label>
-
-          <label>
             Start Date:
             <input type='date' value={this.state.start} onChange={this.handleInputChange} id="startDate"></input>
           </label>
@@ -79,7 +95,7 @@ class ChoosePlannerView extends React.Component {
             End Date:
             <input type='date' value={this.state.end} onChange={this.handleInputChange} id="endDate"></input>
           </label>
-          
+
         </form>
 
         <div className='planner-prefs'>
