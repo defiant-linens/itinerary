@@ -19,6 +19,7 @@ class ItineraryView extends React.Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
+        credentials: 'same-origin',
         method: method,
         body: JSON.stringify(data)
       }, this)

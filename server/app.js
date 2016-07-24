@@ -1,5 +1,6 @@
 var express = require('express');
 var session = require('express-session');
+// var RedisStore = require('connect-redis')(express);
 var db = require('./db');
 
 // Middleware
@@ -15,8 +16,9 @@ app.use(parser.json());
 
 app.use(session({
   secret: 'shhh, it\'s a secret',
-  resave: false,
-  saveUninitialized: true
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
 
 // Set up our routes

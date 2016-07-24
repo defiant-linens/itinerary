@@ -1,18 +1,19 @@
 var db = require('../db');
+var util = require('../lib/util.js')
 var parser = require('body-parser');
-var express = require('express');
-var session = require('express-session');
+// var express = require('express');
+// var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 var cipher = Promise.promisify(bcrypt.hash);
 
-var createSession = function(req, res, newUser) {
-  return req.session.regenerate(function() {
-    console.log(req.session);
-    req.session.user = newUser;
-    res.redirect('/');
-  })
-}
+// var createSession = function(req, res, newUser) {
+//   return req.session.regenerate(function() {
+//     console.log(req.session);
+//     req.session.user = newUser;
+//     res.redirect('/');
+//   })
+// }
 
 module.exports = {
   users: {
@@ -26,7 +27,7 @@ module.exports = {
         bcrypt.compare(req.body.password, user.dataValues.password, function(err, match) {
           if (match) {
             console.log('login successful');
-            createSession(req, res, user);
+            util.createSession(req, res, user);
           } else {
             console.log('password incorrect');
           }
@@ -66,6 +67,17 @@ module.exports = {
           console.log('didn\'t work!', err);
         }
       }); // Needed?
+    },
+
+    logout: function(req, res) {
+      req.session.destroy(function(err) {
+        if (err) { console.log(err); }
+        else {
+          console.log('logout', req.session);
+          console.log('logout successful');
+          res.sendStatus(200);
+        }
+      })
     }
   },
   itineraries: {
@@ -83,6 +95,7 @@ module.exports = {
         }
       })
       .then(function(user) {
+        console.log(user.dataValues.id);
         return db.Itinerary.create({
           location: req.body.location,
           UserId: user.dataValues.id,
