@@ -9,7 +9,7 @@ class PlannerView extends React.Component {
     // Hard code for now
     this.state = {
       location: 'San Francisco',
-      days: 3
+      days: 3,
       events: // We'll need a get request here (?) to find all events associated with the itineraryID 
     };
 
