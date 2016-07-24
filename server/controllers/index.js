@@ -1,5 +1,5 @@
 var db = require('../db');
-var util = require('../lib/util.js')
+var util = require('../lib/util.js');
 var parser = require('body-parser');
 // var express = require('express');
 // var session = require('express-session');
@@ -77,7 +77,7 @@ module.exports = {
           console.log('logout successful');
           res.sendStatus(200);
         }
-      })
+      });
     }
   },
   itineraries: {
@@ -105,8 +105,11 @@ module.exports = {
           overview: req.body.overview
         });
       })
-      .then(function(users) {
-        res.send(users);
+      .then(function(itinerary) {
+        var resObj = {
+          id: itinerary.dataValues.id
+        };
+        res.send(resObj);
       });
     }
   },
