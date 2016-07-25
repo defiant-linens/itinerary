@@ -18,6 +18,7 @@ ReactDOM.render((
       <Route path='choose-planner' component={ChoosePlannerView} />
       <Route path='planner' component={PlannerView} />
       <Route path='itineraries' component={ItineraryView} />
+      <Route path='user-itineraries' component={UserItineraryView} />
     </Route>
   </Router>
 ), document.body);
