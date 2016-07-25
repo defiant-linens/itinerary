@@ -208,28 +208,6 @@ class PlannerView extends React.Component {
           }
         )}
       <div>
-      <select onChange={this.handleChange} id="selected">
-      {this.state.events.map(event => {
-        return <option>{event.name}</option>;
-      })}
-      </select>
-      Day
-      <select onChange={this.handleChange} id="day">
-      {_.range(1, this.state.numDays + 1).map(day => {
-        return <option>{day}</option>;
-      })}
-      </select>
-      Slot
-      <select onChange={this.handleChange} id="slot">
-      {_.range(1, 4).map(slot => {
-        return <option>{slot}</option>;
-      })}
-      </select>
-      <button onClick={this.swap}>Swap</button>
-      </div>
-      <h4>Your trip to {this.state.location}:</h4>
-
-      <div>
       {_.range(1, this.state.numDays + 1).map((day) => {
         return (<DayView day={day} yelpEvents={this.state.events}/>);
       }
