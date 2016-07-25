@@ -55,17 +55,13 @@ class PlannerView extends React.Component {
           location: this.state.location,
           name: e.name,
           slot: (index % 3),
-          image: e.image_url,
+          image: e.image,
           url: e.url,
-          snippet: e.snippet_text,
-          review: e.rating
+          snippet: e.snippet,
+          categories: e.categories,
+          address: e.address
         };
         
-        // Convert categories into a string
-        eventToSave['categories'] = _.map(e['categories'], function(cat) {
-          return cat[0];
-        }).join(', ');
-
         return eventToSave;
       });
 
@@ -152,7 +148,8 @@ class PlannerView extends React.Component {
 
             var newState = {
               events: formattedYelp, 
-              yelpEvents: formattedYelp
+              yelpEvents: formattedYelp,
+              selected: formattedYelp[0].name
             };
             console.log(newState);
             that.setState(newState);
@@ -181,39 +178,43 @@ class PlannerView extends React.Component {
 
   render() {
     return (
+
       <div>
-        <h4>Your trip to {this.state.location}:</h4>
-        <div>
-        <select onChange={this.handleChange} id="selected">
-          {this.state.events.map(event => {
-             return <option>{event.name}</option>;
-           })}
-        </select>
-        <select onChange={this.handleChange} id="day">
-          {_.range(1, this.state.numDays + 1).map(day => {
-             return <option>{day}</option>;
-           })}
-        </select>
-        <select onChange={this.handleChange} id="slot">
-          {_.range(1, 4).map(slot => {
-             return <option>{slot}</option>;
-           })}
-        </select>
-        <button onClick={this.swap}>Swap</button>
-        </div>
+
         <h4>Your trip to {this.state.location}.</h4>
+
+        <div>
+          <select onChange={this.handleChange} id="selected">
+            {this.state.yelpEvents.map(event => {
+               return <option>{event.name}</option>;
+             })}
+          </select>
+          <select onChange={this.handleChange} id="day">
+            {_.range(1, this.state.numDays + 1).map(day => {
+               return <option>{day}</option>;
+             })}
+          </select>
+          <select onChange={this.handleChange} id="slot">
+            {_.range(1, 4).map(slot => {
+               return <option>{slot}</option>;
+             })}
+          </select>
+
+          <button onClick={this.swap}>Swap</button>
+        </div>
+
+        
         <div>
         {_.range(1, this.state.numDays + 1).map((day) => {
             return (<DayView day={day} events={this.state.events}/>);
           }
         )}
-      <div>
-      {_.range(1, this.state.numDays + 1).map((day) => {
-        return (<DayView day={day} yelpEvents={this.state.events}/>);
-      }
-      )}
         </div>
-        <button onClick={this.saveItinerary}>Save Itinerary</button>
+
+        <div>
+          <button onClick={this.saveItinerary}>Save Itinerary</button>
+        </div>
+
       </div>
     );
   }

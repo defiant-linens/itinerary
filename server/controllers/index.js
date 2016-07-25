@@ -231,8 +231,8 @@ module.exports = {
               image: event.image,
               url: event.url,
               snippet: event.snippet,
-              review: event.review,
               categories: event.categories,
+              address: event.address,
               ItineraryId: itinerary.dataValues.id
             });
           });
