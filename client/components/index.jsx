@@ -17,6 +17,7 @@ ReactDOM.render((
       <Route path='landing' component={LandingView} />
       <Route path='choose-planner' component={ChoosePlannerView} />
       <Route path='planner' component={PlannerView} />
+      <Route path='itineraries' component={ItineraryView} />
     </Route>
   </Router>
 ), document.body);
