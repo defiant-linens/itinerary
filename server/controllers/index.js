@@ -129,10 +129,6 @@ module.exports = {
           res.json(itineraries);
         });
       })
-      // .then(function(itineraries) {
-      //   console.log(itineraries);
-      //   res.json(itineraries);
-      // });
     }
   },
   itinerary: {
