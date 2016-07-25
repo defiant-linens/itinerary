@@ -18,18 +18,23 @@ var App = props => {
   };
 
   return (
-    <div className='container'>
-      <div className='header'>
+    <div className="container">
+      <div className="header">
         <nav className="navbar navbar-inverse navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
-              <Link to='/landing' className='navbar-brand logo'>Wonder Wander <i className='fa fa-paper-plane-o' aria-hidden='true'></i></Link>
+            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <Link to="/landing" className="navbar-brand logo">Wonder Wander <i className="fa fa-paper-plane-o" aria-hidden="true"></i></Link>
             </div>
             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul className="nav navbar-nav navbar-right">
-                <li><Link to='/login'>Login</Link></li>
-                <li><Link to='/signup'>Sign up</Link></li>
-                <li><Link to='/landing' onClick={userLogout}>Logout</Link></li>
+                <li><Link to="/login">Login</Link></li>
+                <li><Link to="/signup">Sign up</Link></li>
+                <li><Link to="/landing" onClick={userLogout}>Logout</Link></li>
               </ul>
             </div>
           </div>
@@ -39,3 +44,5 @@ var App = props => {
     </div>
   );
 };
+
+
