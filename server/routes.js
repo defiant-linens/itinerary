@@ -1,6 +1,6 @@
 var controllers = require('./controllers');
 var router = require('express').Router();
-var util = require('./lib/util.js')
+var util = require('./lib/util.js');
 
 // Connect dbs methods to their corresponding routes
 
@@ -13,6 +13,10 @@ router.get('/logout', controllers.users.logout);
 router.get('/itineraries', util.checkUser, controllers.itineraries.get);
 
 router.post('/itineraries', util.checkUser, controllers.itineraries.post);
+
+router.post('/itinerary', util.checkUser, controllers.itineraries.post);
+
+router.post('/save', util.checkUser, controllers.itineraries.post);
 
 router.get('/events', util.checkUser, controllers.events.get);
 
