@@ -17,6 +17,10 @@ var cipher = Promise.promisify(bcrypt.hash);
 // }
 
 module.exports = {
+  
+  /************************************************
+  // Requests to /users
+  ************************************************/
   users: {
     login: function(req, res) {
       db.User.findOne({ where: { name: req.body.username } })
@@ -35,12 +39,7 @@ module.exports = {
         });
       });
     },
-    // getAll: function(req, res) {
-    //   db.User.findAll({})
-    //   .then(function(users) {
-    //     res.json(users);
-    //   });
-    // },
+
     signup: function(req, res) {
       cipher(req.body.password, null, null)
       .then(function(hashPassword) {
@@ -81,6 +80,11 @@ module.exports = {
       });
     }
   },
+
+
+  /************************************************
+  // Requests to /itineraries
+  ************************************************/
   itineraries: {
     get: function(req, res) {
       db.Itinerary.findAll({include: [db.User]})
@@ -133,6 +137,10 @@ module.exports = {
       })
     }
   },
+
+  /************************************************
+  // Requests to /itinerary
+  ************************************************/
   itinerary: {
     post: function(req, res) {
       db.Itinerary.findOne({where: {id: req.body.id}})
@@ -141,6 +149,10 @@ module.exports = {
       });
     }
   },
+
+  /************************************************
+  // Requests to /events
+  ************************************************/
   events: {
     get: function(req, res) {
       db.Event.findAll({}).then(function(events) {
@@ -166,17 +178,31 @@ module.exports = {
       });
     }
   },
+
+  /************************************************
+  // Requests to /save
+  ************************************************/  
   save: {
     post: function(req, res) {
       db.Itinerary.findOne({where: {id: req.body.id}})
       .then(function(itinerary) {
         req.body.events.forEach(function(event) {
           return db.Event.create({
-            location: event.location,
             day: event.day,
+            location: event.location,
+            name: event.name,
+            slot: event.slot,
+            image: event.image,
+            url: event.url,
+            snippet: event.snippet,
+            review: event.review,
+            categories: event.categories,
             ItineraryId: itinerary.dataValues.id
           });
         });
+      })
+      .then(function() {
+        res.send('Events posted!');
       });
     }
   }
