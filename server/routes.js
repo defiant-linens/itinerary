@@ -16,6 +16,8 @@ router.post('/itineraries', util.checkUser, controllers.itineraries.post);
 
 router.post('/userItineraries', util.checkUser, controllers.itineraries.getUserItineraries);
 
+router.post('/locationItineraries', util.checkUser, controllers.itineraries.getLocationItineraries);
+
 router.post('/itinerary', util.checkUser, controllers.itinerary.post);
 
 router.post('/save', util.checkUser, controllers.save.post);

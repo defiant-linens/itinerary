@@ -117,7 +117,6 @@ module.exports = {
       });
     },
     getUserItineraries: function(req, res) {
-      console.log('in userItins', req.body);
       db.User.findOne({
         where: {
           name: req.body.user
@@ -134,6 +133,17 @@ module.exports = {
         .then(function(itineraries) {
           res.json(itineraries);
         });
+      })
+    },
+    getLocationItineraries: function(req, res) {
+      db.Itinerary.findAll({
+        where: {
+          location: req.body.location
+        },
+        include: [db.User]
+      })
+      .then(function(itineraries) {
+        res.json(itineraries);
       })
     }
   },
