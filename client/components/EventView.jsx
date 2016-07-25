@@ -10,7 +10,7 @@ var EventView = (props) => {
     if (event) {
       var renderTags = <div>
         <div>
-          {event.name ? event.name : event.location}
+          {event.name}
         </div>
         <div>
           {event.url}
@@ -19,8 +19,6 @@ var EventView = (props) => {
           {event.rating}
         </div>
       </div>;
-    } else {
-      renderTags = null;
     }
 
   } else {

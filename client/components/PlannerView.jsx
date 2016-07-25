@@ -42,7 +42,7 @@ class PlannerView extends React.Component {
       event.preventDefault();
       
       var data = {
-        id: 1,
+        id: 31,
         events: [{
           day: 1,
           location: 'Berlin',
