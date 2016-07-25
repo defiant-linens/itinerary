@@ -4,6 +4,7 @@ var Summary = ({data}) => {
   if (data.overview.length > 75) {
     summary = data.overview.substring(0, 76) + '...';
   }
+  console.log('this is data:', data);
 
   // Note that the image in return is hardcoded for now
   return (
