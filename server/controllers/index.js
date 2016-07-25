@@ -186,6 +186,24 @@ module.exports = {
           res.json(response);
         });
       });
+    },
+    getItineraryEvents: function(req, res) {
+      db.Itinerary.findOne({
+        where: {
+          id: req.body.id
+        }
+      })
+      .then(function(itinerary) {
+        console.log('itinerary', itinerary);
+        db.Event.findAll({
+          where: {
+            ItineraryId: itinerary.dataValues.id
+          }
+        })
+        .then(function(events) {
+          res.json(events);
+        });
+      })
     }
   },
 

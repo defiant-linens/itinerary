@@ -30,6 +30,11 @@ class LocationItineraryView extends React.Component {
           console.log(err);
         });
     }.bind(this);
+
+    this.saveItinerary = (event, itinerary) => {
+      window.fromItinId = itinerary.id;
+      this.props.saveItinerary(event);
+    }
   }
 
   componentDidMount() {
@@ -53,7 +58,7 @@ class LocationItineraryView extends React.Component {
           return (
             <div>
               <Summary data={itinerary} />
-              <div className="btn btn-success">Use this Itinerary</div>
+              <div className="btn btn-success" onClick={(event) => this.saveItinerary(event, itinerary)}>Use this Itinerary</div>
             </div>
           )})}
       </div>
