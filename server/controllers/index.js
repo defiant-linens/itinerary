@@ -114,6 +114,14 @@ module.exports = {
       });
     }
   },
+  itinerary: {
+    post: function(req, res) {
+      db.Itinerary.findOne({where: {id: req.body.id}})
+      .then(function(itinerary) {
+        res.json(itinerary);
+      });
+    }
+  },
   events: {
     get: function(req, res) {
       db.Event.findAll({}).then(function(events) {
@@ -121,6 +129,7 @@ module.exports = {
       });
     },
     post: function(req, res) {
+      var response = {};
       var location = req.body.location.trim().split('').join('+');
       var options = {
         location: location,
@@ -128,8 +137,22 @@ module.exports = {
         category_filter: 'landmarks,tours,arts'
       };
       requestYelp(options, function(err, resp, body) {
-        var places = JSON.parse(body).businesses;
-        res.json(places);
+        response.eventsFromYelp = JSON.parse(body).businesses;
+        db.Event.findAll({where: {location: req.body.location}})
+        .then(function(dbEvents) {
+          response.eventsFromDb = dbEvents.dataValues;
+          res.json(response);
+        });
+      });
+    }
+  },
+  save: {
+    post: function(req, res) {
+      db.Itinerary.findOne({where: {id: req.body.id}})
+      .then(function(itinerary) {
+        req.body.events.forEach(function(event) {
+
+        });
       });
     }
   }
