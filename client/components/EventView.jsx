@@ -1,12 +1,14 @@
 var EventView = (props) => {
 
   if (props.events.length > 0) {
-    
+
     // The day (d) is index 1, event (e) is index 0
     var d = props.day;
     var e = props.eventID;
     var index = 3 * (d - 1) + e;
     var event = props.events[index];
+    console.log(event.rating);
+    var categoryArray = event.categories.split(', ');
 
     var renderTags = <div className="panel panel-success">
       <div className="panel-heading">
@@ -14,22 +16,22 @@ var EventView = (props) => {
       </div>
       <div className="panel-body">
         <div>
-          <p><img src={event.image_url} className="thumbnail"/></p>
+          <p><img src={event.image} className="thumbnail"/></p>
         </div>
         <div>
-          <p><img src={event.rating_img_url}/></p>
+          <p><img src={event.rating}/></p>
         </div>
         <div>
-          <p><strong>Address: </strong> {event.location.display_address[0]}, {event.location.display_address[1]}</p>
+          <p><strong>Address: </strong> {event.address}</p>
         </div>
         <div>
-          <p><strong>Review: </strong> {event.snippet_text}</p>
+          <p><strong>Review: </strong> {event.snippet}</p>
         </div>
         <div>
-          <p><strong>Categories: </strong>{event.categories.map(category => <span className="label label-success category-right">{category[0]}</span>)}</p>
+          <p><strong>Categories: </strong>{categoryArray.map(category => <span className="label label-success category-right">{category}</span>)}</p>
         </div>
       </div>
-      </div>;
+    </div>;
 
   } else {
     var renderTags = null;

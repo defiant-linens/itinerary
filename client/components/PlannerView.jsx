@@ -108,7 +108,8 @@ class PlannerView extends React.Component {
                 image: yelpEvent['image_url'],
                 url: yelpEvent['url'],
                 snippet: yelpEvent['snippet_text'],
-                review: yelpEvent['rating']
+                rating: yelpEvent['rating_img_url'],
+                address: yelpEvent['location']['display_address'][0] + ', ' + yelpEvent['location']['display_address'][1]
               };
 
               formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
@@ -119,12 +120,13 @@ class PlannerView extends React.Component {
             });
 
             console.log(data.eventsFromYelp);
-            console.log(formattedYelp);
+            console.log('Formatted Yelp: ' + formattedYelp);
 
             var newState = {
-              events: data.eventsFromYelp, 
-              yelpEvents: data.eventsFromYelp
+              events: formattedYelp, 
+              yelpEvents: formattedYelp
             };
+            console.log(newState);
             that.setState(newState);
           }
         );
@@ -150,7 +152,6 @@ class PlannerView extends React.Component {
   }
 
   render() {
-    console.log(this.state.events);
     return (
       <div>
         <h4>Your trip to {this.state.location}:</h4>
