@@ -23,6 +23,7 @@ class SignupView extends React.Component {
         .then(res => {
           console.log('Successful clientside POST-request');
           if (res.status === 201) {
+            window.user = this.state.username;
             console.log('redirecting');
             window.location.hash = 'landing';
           }
