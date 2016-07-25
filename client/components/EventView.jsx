@@ -19,6 +19,8 @@ var EventView = (props) => {
           {event.rating}
         </div>
       </div>;
+    } else {
+      renderTags = null;
     }
 
   } else {
