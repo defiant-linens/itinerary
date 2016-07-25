@@ -10,38 +10,13 @@ var sequelize = new Sequelize('wonderwander', 'root', null, {
   },
   define: {
     timestamps: false,
-    // allowNull: false // Adds NOT NULL to all values by default
-    // notNull: true
   }
 });
 
-// var db = {};
-// db.sequelize = sequelize;
-// db.Sequelize = Sequelize;
-
-// Router
-// var router = require('./routes.js');
-
-// var app = express();
-// module.exports.app = app;
-
-
-// app.set('port', 3000);
-
-// // Clarification on routing -- what does this do?
-// // app.use('./', router);
-
-// // Serve the client files
-// app.use(express.static('public'));
-
-// Define Tables
+/************************************************
+// User table
+************************************************/
 var User = sequelize.define('User', {
-  // id: {
-  //   type: Sequelize.INTEGER,
-  //   unique: true,
-  //   primaryKey: true,
-  //   autoIncrement: true,
-  // },
   name: { 
     type: Sequelize.STRING(25),
     allowNull: false
@@ -52,13 +27,10 @@ var User = sequelize.define('User', {
   }
 });
 
+/************************************************
+// Itinerary table
+************************************************/
 var Itinerary = sequelize.define('Itinerary', {
-  // id: {
-  //   type: Sequelize.INTEGER,
-  //   unique: true,
-  //   primaryKey: true,
-  //   autoIncrement: true
-  // },
   location: {
     type: Sequelize.STRING(100),
     allowNull: false
@@ -81,13 +53,10 @@ var Itinerary = sequelize.define('Itinerary', {
   }
 });
 
+/************************************************
+// Events table
+************************************************/
 var Event = sequelize.define('Event', {
-  // id: {
-  //   type: Sequelize.INTEGER,
-  //   unique: true,
-  //   primaryKey: true,
-  //   autoIncrement: true
-  // },
   day: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -95,9 +64,36 @@ var Event = sequelize.define('Event', {
   location: {
     type: Sequelize.STRING(100),
     allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING(100),
+    allowNull: false    
+  },
+  slot: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  image: {
+    type: Sequelize.STRING(255),
+    allowNull: true
+  },
+  url: {
+    type: Sequelize.STRING(255),
+    allowNull: false
+  },
+  snippet: {
+    type: Sequelize.STRING(255),
+    allowNull: true
+  },
+  review: {
+    type: Sequelize.DECIMAL(1,1),
+    allowNull: true
   }
 });
 
+/************************************************
+// Add foreign keys
+************************************************/
 User.hasMany(Itinerary);
 
 Itinerary.belongsTo(User);
@@ -121,60 +117,3 @@ sequelize
 exports.User = User;
 exports.Itinerary = Itinerary;
 exports.Event = Event;
-// sequelize.sync();
-
-// var mysql = require('mysql');
-
-// var connect = function() {
-//   return mysql.createConnection({
-//     user: 'root',
-//     password: '',
-//     database: 'wonderwander'
-//   });
-// };
-
-// connection.connect();
-
-// module.exports = connection;
-// module.exports = {
-//   users: {
-//     get: function() {
-//       var queryStr = 'select name from users';
-//       connect().query(queryStr, function(err, results) {
-//         if (err) {
-//           // do something
-//         }
-//         res.send(results);
-//       });
-//     },
-//     post: function(params) {
-//       var queryStr = 'insert into users(name) value (?)';
-//       connect().query(queryStr, params, function(err, results) {
-//         if (err) {
-//           // do something
-//         }
-//         res.send('Post for users worked!');
-//       });
-//     }
-//   },
-//   itineraries: {
-//     get: function() {
-//       var queryStr = 'select * from itineraries';
-//       connect().query(queryStr, function(err, results) {
-//         if (err) {
-//           // do something
-//         }
-//         res.send(results);
-//       });
-//     },
-//     post: function(params) {
-//       var queryStr = 'insert into itineraries(name) value (?)';
-//       connect().query(queryStr, params, function(err, results) {
-//         if (err) {
-//           // do something
-//         }
-//         res.send('Post for users worked!');
-//       });
-//     }
-//   }
-// };
