@@ -151,7 +151,11 @@ module.exports = {
       db.Itinerary.findOne({where: {id: req.body.id}})
       .then(function(itinerary) {
         req.body.events.forEach(function(event) {
-
+          return db.Event.create({
+            location: event.location,
+            day: event.day,
+            ItineraryId: itinerary.dataValues.id
+          });
         });
       });
     }
