@@ -214,24 +214,33 @@ module.exports = {
     post: function(req, res) {
       db.Itinerary.findOne({where: {id: req.body.id}})
       .then(function(itinerary) {
-        req.body.events.forEach(function(event) {
-          return db.Event.create({
-            day: event.day,
-            location: event.location,
-            name: event.name,
-            slot: event.slot,
-            image: event.image,
-            url: event.url,
-            snippet: event.snippet,
-            review: event.review,
-            categories: event.categories,
+        // First clears existing events
+        db.Event.destroy({
+          where: {
             ItineraryId: itinerary.dataValues.id
+          }
+        })
+        .then(function() {
+          // Then saves new event configuration
+          req.body.events.forEach(function(event) {
+            return db.Event.create({
+              day: event.day,
+              location: event.location,
+              name: event.name,
+              slot: event.slot,
+              image: event.image,
+              url: event.url,
+              snippet: event.snippet,
+              review: event.review,
+              categories: event.categories,
+              ItineraryId: itinerary.dataValues.id
+            });
           });
+        })
+        .then(function() {
+          res.send('Events posted!');
         });
       })
-      .then(function() {
-        res.send('Events posted!');
-      });
     }
   }
 };
