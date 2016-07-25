@@ -130,7 +130,8 @@ module.exports = {
     },
     post: function(req, res) {
       var response = {};
-      var location = req.body.location.trim().split('').join('+');
+      var location = req.body.location.trim().split(' ').join('+');
+      console.log(location);
       var options = {
         location: location,
         limit: 20,
