@@ -86,7 +86,7 @@ var Event = sequelize.define('Event', {
     allowNull: true
   },
   review: {
-    type: Sequelize.DECIMAL(1,1),
+    type: Sequelize.DECIMAL(10,2),
     allowNull: true
   }
 });

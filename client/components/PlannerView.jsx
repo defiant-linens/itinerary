@@ -38,8 +38,24 @@ class PlannerView extends React.Component {
         });
     }.bind(this);
 
-    this.saveItinerary = function () {
-      // Save events added by user to the events table in the server w/ associated itineraryID (?)
+    this.saveItinerary = event => {
+      event.preventDefault();
+      
+      var data = {
+        id: 1,
+        events: [{
+          day: 1,
+          location: 'Berlin',
+          name: 'Hot Dog House',
+          slot: 1,
+          image: 'http://sites.msdwt.k12.in.us/jfeeney/wp-content/uploads/sites/15/2014/07/worldwide-travel-nurse-advantages.jpg',
+          url: 'http://www.yelp.com/biz/chefs-dog-house-newington',
+          snippet: 'great',
+          review: 4.5
+        }]
+      };
+
+      this.serverRequest('http://localhost:3000/classes/save', data);
     };
   }
 
