@@ -113,12 +113,14 @@ module.exports = {
       });
     },
     getUserItineraries: function(req, res) {
+      console.log('in userItins', req.body);
       db.User.findOne({
         where: {
           name: req.body.user
         }
       })
       .then(function(user) {
+        console.log('user', user);
         db.Itinerary.findAll({
           where: {
             UserId: user.dataValues.id
