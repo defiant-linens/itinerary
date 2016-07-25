@@ -83,7 +83,7 @@ module.exports = {
   },
   itineraries: {
     get: function(req, res) {
-      db.Itinerary.findAll({})
+      db.Itinerary.findAll({include: [db.User]})
       .then(function(itineraries) {
         res.json(itineraries);
       });
@@ -96,7 +96,6 @@ module.exports = {
         }
       })
       .then(function(user) {
-        console.log(user.dataValues.id);
         return db.Itinerary.create({
           location: req.body.location,
           UserId: user.dataValues.id,
@@ -112,6 +111,28 @@ module.exports = {
         };
         res.send(resObj);
       });
+    },
+    getUserItineraries: function(req, res) {
+      db.User.findOne({
+        where: {
+          name: req.body.user
+        }
+      })
+      .then(function(user) {
+        db.Itinerary.findAll({
+          where: {
+            UserId: user.dataValues.id
+          },
+          include: [db.User]
+        })
+        .then(function(itineraries) {
+          res.json(itineraries);
+        });
+      })
+      // .then(function(itineraries) {
+      //   console.log(itineraries);
+      //   res.json(itineraries);
+      // });
     }
   },
   itinerary: {
