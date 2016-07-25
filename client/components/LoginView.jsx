@@ -22,6 +22,7 @@ class LoginView extends React.Component {
       }, this)
         .then(res => {
           console.log('Successful clientside POST-request', res);
+          window.user = this.state.username;
         })
         .catch(err => {
           console.log(err);

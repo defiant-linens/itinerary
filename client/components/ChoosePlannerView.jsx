@@ -1,13 +1,10 @@
-// Temporary until we figure out a better way to pass (props via Links?)
-window.itineraryID = 1;
-
 class ChoosePlannerView extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      user: 'kelli',
+      user: window.user,
       location: '',
       startDate: '',
       endDate: '',
@@ -33,6 +30,7 @@ class ChoosePlannerView extends React.Component {
         })
         .then(json => {
           window.newItinerary = json.id;
+          window.location.hash = '#/planner';
         })
         .catch(err => {
           console.log(err);
@@ -41,7 +39,6 @@ class ChoosePlannerView extends React.Component {
 
     this.saveItinerary = event => {
       event.preventDefault();
-      console.log(event);
       var data = {
         user: this.state.user,
         location: this.state.location,
@@ -107,9 +104,9 @@ class ChoosePlannerView extends React.Component {
         </form>
 
         <div className='planner-prefs'>
-          <button onClick={this.saveItinerary}><Link to='/planner'>Blank Itinerary</Link></button>
-          <button onClick={this.saveItinerary}><Link to='/'>Preference-Based Itinerary</Link></button>
-          <button onClick={this.saveItinerary}><Link to='/'>Complete Itinerary</Link></button>
+          <button><Link to='/planner' onClick={this.saveItinerary}>Blank Itinerary</Link></button>
+          <button><Link to='/planner' onClick={this.saveItinerary}>Preference-Based Itinerary</Link></button>
+          <button><Link to='/planner' onClick={this.saveItinerary}>Complete Itinerary</Link></button>
         </div>
 
       </div>

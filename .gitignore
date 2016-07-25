@@ -3,3 +3,6 @@ data/*
 
 # Compiled files
 public/components/*
+
+# Secret files
+server/controllers/secrets.js
