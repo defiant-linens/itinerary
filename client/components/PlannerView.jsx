@@ -39,25 +39,35 @@ class PlannerView extends React.Component {
         });
     }.bind(this);
 
+
+    // Function that saves all events in itinerary to database on button click
     this.saveItinerary = event => {
+      console.log(this);
       event.preventDefault();
 
-      // TODO
-      var eventsToSave = this.state.events;
+      var eventsToSave = _.map(this.state.events, (e, index) => {
+        var eventToSave = {
+          day: (Math.floor(index / 3) + 1),
+          location: this.state.location,
+          name: e.name,
+          slot: (index % 3),
+          image: e.image_url,
+          url: e.url,
+          snippet: e.snippet_text,
+          review: e.rating
+        };
+        
+        // Convert categories into a string
+        eventToSave['categories'] = _.map(e['categories'], function(cat) {
+          return cat[0];
+        }).join(', ');
+
+        return eventToSave;
+      });
 
       var data = {
-        id: 31,
-        events: [{
-          day: 1,
-          location: 'Berlin',
-          name: 'Hot Dog House',
-          slot: 1,
-          image: 'http://sites.msdwt.k12.in.us/jfeeney/wp-content/uploads/sites/15/2014/07/worldwide-travel-nurse-advantages.jpg',
-          url: 'http://www.yelp.com/biz/chefs-dog-house-newington',
-          snippet: 'Great',
-          categories: 'Restaurants',
-          review: 4.5
-        }]
+        id: window.newItinerary,
+        events: eventsToSave
       };
 
       this.serverRequest('http://localhost:3000/classes/save', data);
@@ -67,6 +77,8 @@ class PlannerView extends React.Component {
   componentWillMount() {
     var getEvents = () => {
       console.log('fromItinId', window.fromItinId);
+
+      // Get events saved events from the database
       if (window.fromItinId) {
         this.serverRequest(
           'http://localhost:3000/classes/itineraryEvents',
@@ -81,6 +93,8 @@ class PlannerView extends React.Component {
           }
         );
       }
+
+      // Get events from yelp
       else {
         this.serverRequest(
           'http://localhost:3000/classes/events',
@@ -108,7 +122,7 @@ class PlannerView extends React.Component {
             console.log(formattedYelp);
 
             var newState = {
-              events: data.eventsFromYelp, // Fix this according to which button is selected
+              events: data.eventsFromYelp, 
               yelpEvents: data.eventsFromYelp
             };
             that.setState(newState);
