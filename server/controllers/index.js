@@ -5,6 +5,7 @@ var parser = require('body-parser');
 // var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
+var requestYelp = require('./yelp').requestYelp;
 var cipher = Promise.promisify(bcrypt.hash);
 
 // var createSession = function(req, res, newUser) {
@@ -120,20 +121,15 @@ module.exports = {
       });
     },
     post: function(req, res) {
-      Itinerary.findOne({
-        where: { 
-          itinerary: req.body.itinerary
-        }
-      })
-      .then(function(event) {
-        db.Event.create({
-          day: req.body.day,
-          location: req.body.location,
-          itineraryId: event.get('id')
-        });
-      })
-      .then(function(users) {
-        res.send(users);
+      var location = req.body.location.trim().split('').join('+');
+      var options = {
+        location: location,
+        limit: 20,
+        category_filter: 'landmarks,tours,arts'
+      };
+      requestYelp(options, function(err, resp, body) {
+        var places = JSON.parse(body).businesses;
+        res.json(places);
       });
     }
   }

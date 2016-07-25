@@ -7,7 +7,7 @@ class PlannerView extends React.Component {
       // Hard code for now, need to make a get request to find location, days associated with the itinerary ID
       location: 'San Francisco',
       days: 3,
-      events: // We'll need a get request here (?) to find all events associated with the itineraryID 
+      events: [] // We'll need a get request here (?) to find all events associated with the itineraryID 
     };
 
     this.serverRequest = function ajax(url, data) {
