@@ -4,7 +4,6 @@ class PlannerView extends React.Component {
     super(props);
 
     this.state = {
-      // Hard code for now, need to make a get request to find location, days associated with the itinerary ID
       location: 'San Francisco',
       days: 3,
       events: [] // We'll need a get request here (?) to find all events associated with the itineraryID 
@@ -22,28 +21,48 @@ class PlannerView extends React.Component {
         method: method,
         body: JSON.stringify(data)
       }, this)
-        .then(res => {
-          console.log('Successful clientside POST-request');
+        .then(json => {
+          console.log(json);
         })
         .catch(err => {
           console.log(err);
         });
     }.bind(this);
+
+    this.serverRequest = function () {
+      var newState = {
+        location: 'Boston', //json.location
+        numDays: 4, // json.numDays
+        events: [] // Get array in callback
+      }
+      this.setState(newState);
+    }
+
+    this.saveItinerary = function () {
+      // Save events added by user to the events table in the server w/ associated itineraryID (?)
+    }
+  }
+
+  componentDidMount() {
+    this.serverRequest('http://localhost:3000/classes/itinerary', {itineraryID: window.newItinerary});
   }
 
   render() {
     return (
       <div>
         <h4>Your trip to {this.state.location}.</h4>
-        // Loop through DayView, passing in as props the day number and events associated with that day
-        <DayView />
+
+        <div>
+        {_.range(1, this.state.numDays + 1).map((day) => {
+            // Code here to get event array for that day; pass into DayView as prop
+            return (<DayView day={day}/>);
+          }
+        )}
+        </div>
+
+        <button onClick={this.saveItinerary}>Save Itinerary</button>
       </div>
     );
   }
 
 }
-
-
-// Need to: 
-// 1. Make a get request w/ itinerary ID; get number of days
-// 2. Make that number of day views

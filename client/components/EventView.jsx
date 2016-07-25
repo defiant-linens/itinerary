@@ -1,7 +1,7 @@
 var EventView = (props) => {
   return (
     <div>
-      Display event
+      Event {props.event.id}
     </div>
   );
 }
