@@ -81,7 +81,7 @@ class ChoosePlannerView extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container centerText">
         <form>
           <h2>Where will your travels take you?</h2>
           <div className='row'>

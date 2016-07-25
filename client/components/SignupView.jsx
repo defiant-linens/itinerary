@@ -53,7 +53,7 @@ class SignupView extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container centerText">
         <form className="form-login" onSubmit={this.submitLogin}>
           <h2>Sign Up</h2>
           <input id="username" className="form-control" type="text" onChange={this.handleInputChange} placeholder="Username"/>
