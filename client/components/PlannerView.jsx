@@ -6,7 +6,8 @@ class PlannerView extends React.Component {
     this.state = {
       location: 'San Francisco',
       numDays: 3,
-      events: [] // We'll need a get request here (?) to find all events associated with the itineraryID
+      events: [],
+      yelpEvents: []
     };
 
     this.serverRequest = function ajax(url, data, callback) {
@@ -40,7 +41,7 @@ class PlannerView extends React.Component {
 
     this.saveItinerary = event => {
       event.preventDefault();
-      
+
       var data = {
         id: 31,
         events: [{
@@ -82,11 +83,32 @@ class PlannerView extends React.Component {
           'http://localhost:3000/classes/events',
           {location: that.state.location},
           function(data) {
+
+            // Make the events from yelp nice
+            var formattedYelp = _.map(data.eventsFromYelp, function(yelpEvent) {
+              var formatted = {
+                name: yelpEvent['name'],
+                image: yelpEvent['image_url'],
+                url: yelpEvent['url'],
+                snippet: yelpEvent['snippet_text'],
+                review: yelpEvent['rating']
+              };
+
+              formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
+                return cat[0];
+              }).join(', ');
+
+              return formatted;
+            });
+
+            console.log(data.eventsFromYelp);
+            console.log(formattedYelp);
+
             var newState = {
-              events: data.eventsFromYelp
+              events: data.eventsFromYelp, // Fix this according to which button is selected
+              yelpEvents: data.eventsFromYelp
             };
             that.setState(newState);
-            console.log(that.state.events);
           }
         );
       }

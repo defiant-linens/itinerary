@@ -1,6 +1,7 @@
 var EventView = (props) => {
   console.log('this are the events', props.yelpEvents)
   if (props.yelpEvents.length > 0) {
+    // The day (d) is index 1, event (e) is index 0
     var d = props.day;
     var e = props.eventID;
     var index = 3 * (d - 1) + e;
