@@ -7,7 +7,11 @@ class PlannerView extends React.Component {
       location: 'San Francisco',
       numDays: 3,
       events: [],
-      yelpEvents: []
+      yelpEvents: [],
+      events: [], // We'll need a get request here (?) to find all events associated with the itineraryID
+      selected: '',
+      day: '1',
+      slot: '1'
     };
 
     this.serverRequest = function ajax(url, data, callback) {
@@ -72,6 +76,30 @@ class PlannerView extends React.Component {
 
       this.serverRequest('http://localhost:3000/classes/save', data);
     };
+
+    this.handleChange = event => {
+      var newState = {};
+      newState[event.target.id] = event.target.value;
+      this.setState(newState);
+    };
+
+    this.swap = () => {
+      var day = parseInt(this.state.day, 10) - 1;
+      var slot = parseInt(this.state.slot, 10) - 1;
+
+      var index = 3 * day + slot;
+      var target = _.find(this.state.events, event => {
+        return event.name === this.state.selected;
+      });
+      var targetIdx = _.findIndex(this.state.events, event => {
+        return event.name === this.state.selected;
+      });
+      var newEvents = this.state.events.slice();
+      var temp = newEvents[index];
+      newEvents[index] = target;
+      newEvents[targetIdx] = temp;
+      this.setState({events: newEvents});
+    };
   }
 
   componentWillMount() {
@@ -134,7 +162,7 @@ class PlannerView extends React.Component {
     };
 
     var that = this;
-    // Get itinerary 
+    // Get itinerary
     this.serverRequest(
       'http://localhost:3000/classes/itinerary', 
       {id: window.newItinerary},
@@ -155,14 +183,58 @@ class PlannerView extends React.Component {
     return (
       <div>
         <h4>Your trip to {this.state.location}:</h4>
-
+        <div>
+        <select onChange={this.handleChange} id="selected">
+          {this.state.events.map(event => {
+             return <option>{event.name}</option>;
+           })}
+        </select>
+        <select onChange={this.handleChange} id="day">
+          {_.range(1, this.state.numDays + 1).map(day => {
+             return <option>{day}</option>;
+           })}
+        </select>
+        <select onChange={this.handleChange} id="slot">
+          {_.range(1, 4).map(slot => {
+             return <option>{slot}</option>;
+           })}
+        </select>
+        <button onClick={this.swap}>Swap</button>
+        </div>
+        <h4>Your trip to {this.state.location}.</h4>
         <div>
         {_.range(1, this.state.numDays + 1).map((day) => {
             return (<DayView day={day} events={this.state.events}/>);
           }
         )}
-        </div>
+      <div>
+      <select onChange={this.handleChange} id="selected">
+      {this.state.events.map(event => {
+        return <option>{event.name}</option>;
+      })}
+      </select>
+      Day
+      <select onChange={this.handleChange} id="day">
+      {_.range(1, this.state.numDays + 1).map(day => {
+        return <option>{day}</option>;
+      })}
+      </select>
+      Slot
+      <select onChange={this.handleChange} id="slot">
+      {_.range(1, 4).map(slot => {
+        return <option>{slot}</option>;
+      })}
+      </select>
+      <button onClick={this.swap}>Swap</button>
+      </div>
+      <h4>Your trip to {this.state.location}:</h4>
 
+      <div>
+      {_.range(1, this.state.numDays + 1).map((day) => {
+        return (<DayView day={day} yelpEvents={this.state.events}/>);
+      }
+      )}
+        </div>
         <button onClick={this.saveItinerary}>Save Itinerary</button>
       </div>
     );
