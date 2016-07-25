@@ -6,7 +6,8 @@ class PlannerView extends React.Component {
     this.state = {
       location: 'San Francisco',
       numDays: 3,
-      events: [] // We'll need a get request here (?) to find all events associated with the itineraryID
+      events: [],
+      yelpEvents: []
     };
 
     this.serverRequest = function ajax(url, data, callback) {
@@ -38,22 +39,35 @@ class PlannerView extends React.Component {
         });
     }.bind(this);
 
+
+    // Function that saves all events in itinerary to database on button click
     this.saveItinerary = event => {
+      console.log(this);
       event.preventDefault();
-      
+
+      var eventsToSave = _.map(this.state.events, (e, index) => {
+        var eventToSave = {
+          day: (Math.floor(index / 3) + 1),
+          location: this.state.location,
+          name: e.name,
+          slot: (index % 3),
+          image: e.image_url,
+          url: e.url,
+          snippet: e.snippet_text,
+          review: e.rating
+        };
+        
+        // Convert categories into a string
+        eventToSave['categories'] = _.map(e['categories'], function(cat) {
+          return cat[0];
+        }).join(', ');
+
+        return eventToSave;
+      });
+
       var data = {
-        id: 31,
-        events: [{
-          day: 1,
-          location: 'Berlin',
-          name: 'Hot Dog House',
-          slot: 1,
-          image: 'http://sites.msdwt.k12.in.us/jfeeney/wp-content/uploads/sites/15/2014/07/worldwide-travel-nurse-advantages.jpg',
-          url: 'http://www.yelp.com/biz/chefs-dog-house-newington',
-          snippet: 'Great',
-          categories: 'Restaurants',
-          review: 4.5
-        }]
+        id: window.newItinerary,
+        events: eventsToSave
       };
 
       this.serverRequest('http://localhost:3000/classes/save', data);
@@ -63,6 +77,8 @@ class PlannerView extends React.Component {
   componentWillMount() {
     var getEvents = () => {
       console.log('fromItinId', window.fromItinId);
+
+      // Get events saved events from the database
       if (window.fromItinId) {
         this.serverRequest(
           'http://localhost:3000/classes/itineraryEvents',
@@ -77,16 +93,41 @@ class PlannerView extends React.Component {
           }
         );
       }
+
+      // Get events from yelp
       else {
         this.serverRequest(
           'http://localhost:3000/classes/events',
           {location: that.state.location},
           function(data) {
+
+            // Make the events from yelp nice
+            var formattedYelp = _.map(data.eventsFromYelp, function(yelpEvent) {
+              var formatted = {
+                name: yelpEvent['name'],
+                image: yelpEvent['image_url'],
+                url: yelpEvent['url'],
+                snippet: yelpEvent['snippet_text'],
+                rating: yelpEvent['rating_img_url'],
+                address: yelpEvent['location']['display_address'][0] + ', ' + yelpEvent['location']['display_address'][1]
+              };
+
+              formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
+                return cat[0];
+              }).join(', ');
+
+              return formatted;
+            });
+
+            console.log(data.eventsFromYelp);
+            console.log('Formatted Yelp: ' + formattedYelp);
+
             var newState = {
-              events: data.eventsFromYelp
+              events: formattedYelp, 
+              yelpEvents: formattedYelp
             };
+            console.log(newState);
             that.setState(newState);
-            console.log(that.state.events);
           }
         );
       }
@@ -111,14 +152,13 @@ class PlannerView extends React.Component {
   }
 
   render() {
-    console.log(this.state.events);
     return (
       <div>
         <h4>Your trip to {this.state.location}:</h4>
 
         <div>
         {_.range(1, this.state.numDays + 1).map((day) => {
-            return (<DayView day={day} yelpEvents={this.state.events}/>);
+            return (<DayView day={day} events={this.state.events}/>);
           }
         )}
         </div>
