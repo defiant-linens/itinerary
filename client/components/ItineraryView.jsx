@@ -39,7 +39,7 @@ class ItineraryView extends React.Component {
     return (
       // Add search functionality here (filter itineraries)
       <div className="itineraries">
-        {this.state.itineraries.map(itinerary => <Summary data={itinerary} />)}
+        {this.state.itineraries.map(itinerary => <ExpandedItineraryView itinerary={itinerary} usable={false}/>)}
       </div>
     );
   }

@@ -73,7 +73,7 @@ class PlannerView extends React.Component {
             };
             that.setState(newState);
             console.log(that.state.events);
-            // window.fromItinId = undefined;
+            window.fromItinId = undefined;
           }
         );
       }
