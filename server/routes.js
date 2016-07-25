@@ -26,4 +26,6 @@ router.get('/events', util.checkUser, controllers.events.get);
 
 router.post('/events', util.checkUser, controllers.events.post);
 
+router.post('/itineraryEvents', util.checkUser, controllers.events.getItineraryEvents);
+
 module.exports = router;

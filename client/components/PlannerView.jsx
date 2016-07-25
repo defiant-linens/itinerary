@@ -45,17 +45,34 @@ class PlannerView extends React.Component {
 
   componentWillMount() {
     var getEvents = () => {
-      this.serverRequest(
-        'http://localhost:3000/classes/events',
-        {location: that.state.location},
-        function(data) {
-          var newState = {
-            events: data.eventsFromYelp
-          };
-          that.setState(newState);
-          console.log(that.state.events);
-        }
-      );
+      console.log('fromItinId', window.fromItinId);
+      if (window.fromItinId) {
+        this.serverRequest(
+          'http://localhost:3000/classes/itineraryEvents',
+          {id: window.fromItinId},
+          function(data) {
+            var newState = {
+              events: data
+            };
+            that.setState(newState);
+            console.log(that.state.events);
+            // window.fromItinId = undefined;
+          }
+        );
+      }
+      else {
+        this.serverRequest(
+          'http://localhost:3000/classes/events',
+          {location: that.state.location},
+          function(data) {
+            var newState = {
+              events: data.eventsFromYelp
+            };
+            that.setState(newState);
+            console.log(that.state.events);
+          }
+        );
+      }
     };
 
     var that = this;
@@ -64,6 +81,7 @@ class PlannerView extends React.Component {
       'http://localhost:3000/classes/itinerary', 
       {id: window.newItinerary},
       function(data) {
+        console.log(data);
         var newState = {
           location: data.location,
           numDays: data.numDays
@@ -79,7 +97,7 @@ class PlannerView extends React.Component {
     console.log(this.state.events);
     return (
       <div>
-        <h4>Your trip to {this.state.location}.</h4>
+        <h4>Your trip to {this.state.location}:</h4>
 
         <div>
         {_.range(1, this.state.numDays + 1).map((day) => {
