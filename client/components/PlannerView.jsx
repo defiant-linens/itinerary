@@ -6,7 +6,7 @@ class PlannerView extends React.Component {
     this.state = {
       location: 'San Francisco',
       numDays: 3,
-      events: [] // We'll need a get request here (?) to find all events associated with the itineraryID 
+      events: [] // We'll need a get request here (?) to find all events associated with the itineraryID
     };
 
     this.serverRequest = function ajax(url, data, callback) {
@@ -27,11 +27,11 @@ class PlannerView extends React.Component {
           return res.json();
         })
         .then(json => {
-          console.log(json)
+          console.log(json);
 
-          callback(json)
+          callback(json);
 
-          return json;         
+          return json;
         })
         .catch(err => {
           console.log(err);
@@ -40,11 +40,23 @@ class PlannerView extends React.Component {
 
     this.saveItinerary = function () {
       // Save events added by user to the events table in the server w/ associated itineraryID (?)
-    }
+    };
   }
 
-  componentDidMount() {
-    console.log('cdm');
+  componentWillMount() {
+    var getEvents = () => {
+      this.serverRequest(
+        'http://localhost:3000/classes/events',
+        {location: that.state.location},
+        function(data) {
+          var newState = {
+            events: data.eventsFromYelp
+          };
+          that.setState(newState);
+          console.log(that.state.events);
+        }
+      );
+    };
 
     var that = this;
     // Get itinerary 
@@ -55,22 +67,12 @@ class PlannerView extends React.Component {
         var newState = {
           location: data.location,
           numDays: data.numDays
-        }
-        that.setState(newState);         
+        };
+        that.setState(newState);
+        getEvents();
       }
     );
 
-    this.serverRequest(
-      'http://localhost:3000/classes/events', 
-      {location: that.state.location},
-      function(data) {
-        var newState = {
-          events: data.eventsFromYelp
-        }
-        that.setState(newState); 
-        console.log(that.state.events);        
-      }
-    );
   }
 
   render() {
