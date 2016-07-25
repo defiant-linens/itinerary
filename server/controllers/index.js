@@ -112,6 +112,23 @@ module.exports = {
         };
         res.send(resObj);
       });
+    },
+    getUserItineraries: function(req, res) {
+      db.User.findOne({
+        where: {
+          name: req.body.user
+        }
+      })
+      .then(function(user) {
+        db.Itinerary.findAll({
+          where: {
+            UserId: user.dataValues.id
+          }
+        })
+      })
+      .then(function(itineraries) {
+        res.json(itineraries);
+      })
     }
   },
   itinerary: {
