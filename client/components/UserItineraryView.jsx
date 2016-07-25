@@ -12,7 +12,6 @@ class UserItineraryView extends React.Component {
 
   componentDidMount() {
     this.serverRequest = function ajax(url, data) {
-      // If second parameter is empty function performs a GET request
       fetch(url, {
         headers: {
           'Accept': 'application/json',
