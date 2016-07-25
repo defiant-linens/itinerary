@@ -81,34 +81,34 @@ class ChoosePlannerView extends React.Component {
 
   render() {
     return (
-      <div>
-
-        <form className='itinerary-prefs'> 
-          <h2>Where do you want to go?</h2>
-
-          <label>
-            Destination:
-            <input type='text' value={this.state.location} onChange={this.handleInputChange} id="location"></input>
-          </label>
-
-          <label>
-            Start Date:
-            <input type='date' value={this.state.start} onChange={this.handleInputChange} id="startDate"></input>
-          </label>
-
-          <label>
-            End Date:
-            <input type='date' value={this.state.end} onChange={this.handleInputChange} id="endDate"></input>
-          </label>
-
+      <div className="container">
+        <form>
+          <h2>Where will your travels take you?</h2>
+          <div className='row'>
+            <label>
+              Destination:
+              <div className="input-group">
+                <input type='text' value={this.state.location} onChange={this.handleInputChange} id="location"></input>
+              </div>
+            </label>
+            <p></p>
+            <label>
+              Start Date:
+              <input type='date' value={this.state.start} onChange={this.handleInputChange} id="startDate"></input>
+            </label>
+            <p></p>
+            <label>
+              End Date:
+              <input type='date' value={this.state.end} onChange={this.handleInputChange} id="endDate"></input>
+            </label>
+          </div>
         </form>
-
+        <p></p>
         <div className='planner-prefs'>
-          <button><Link to='/planner' onClick={this.saveItinerary}>Blank Itinerary</Link></button>
-          <button><Link to='/planner' onClick={this.saveItinerary}>Preference-Based Itinerary</Link></button>
-          <button><Link to='/planner' onClick={this.saveItinerary}>Complete Itinerary</Link></button>
+          <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Blank Itinerary</Link><span>   </span>
+          <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Preference-Based Itinerary</Link><span>   </span>
+          <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Complete Itinerary</Link>
         </div>
-
       </div>
     );
   }

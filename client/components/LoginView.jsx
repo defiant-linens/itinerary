@@ -55,16 +55,13 @@ class LoginView extends React.Component {
 
   render() {
     return (
-      <div>
-        Log in
-        <form onSubmit={this.submitLogin}>
-          <label htmlFor="username">Username:</label>
-          <input id="username" type="text" onChange={this.handleInputChange} />
-          <label htmlFor="password">Password:</label>
-          <input id="password" type="text" onChange={this.handleInputChange} />
-          <input type="submit" value="Save" />
+      <div className="container">
+        <form className="form-login" onSubmit={this.submitLogin}>
+          <h2>Login</h2>
+          <input id="username" className="form-control" type="text" onChange={this.handleInputChange} placeholder="Username"/>
+          <input id="password" className="form-control" type="password" onChange={this.handleInputChange} placeholder="Password"/>
+          <button className="btn btn-success btn-block" type="submit" value="Save">Login</button>
         </form>
-        <p onClick={this.logout}>Logout</p>
       </div>
     );
   };
