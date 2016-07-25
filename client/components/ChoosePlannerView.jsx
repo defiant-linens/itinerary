@@ -10,6 +10,8 @@ class ChoosePlannerView extends React.Component {
       endDate: '',
       numDays: 0,
       overview: 'hardcode',
+      showList: false,
+      listLocation: ''
     };
 
     this.serverRequest = function ajax(url, data) {
@@ -77,6 +79,14 @@ class ChoosePlannerView extends React.Component {
 
       return (numDays && numDays > 0) ? numDays : 0;
     };
+
+    this.showLocationItineraries = function() {
+      this.setState({
+        showList: true,
+        listLocation: this.state.location
+      });
+      console.log('showList true');
+    }.bind(this);
   }
 
   render() {
@@ -107,8 +117,10 @@ class ChoosePlannerView extends React.Component {
         <div className='planner-prefs'>
           <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Blank Itinerary</Link><span>   </span>
           <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Preference-Based Itinerary</Link><span>   </span>
-          <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Complete Itinerary</Link>
+          <div className="btn btn-success" onClick={this.showLocationItineraries}>Use Someone Else's</div>
         </div>
+
+        { this.state.showList ? <LocationItineraryView location={this.state.listLocation} saveItinerary={this.saveItinerary} /> : null }
       </div>
     );
   }

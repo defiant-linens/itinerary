@@ -7,17 +7,21 @@ var EventView = (props) => {
     var index = 3 * (d - 1) + e;
     var event = props.yelpEvents[index];
 
-    var renderTags = <div>
-      <div>
-        {event.name}
-      </div>
-      <div>
-        {event.url}
-      </div>
-      <div>
-        {event.rating}
-      </div>
-    </div>;
+    if (event) {
+      var renderTags = <div>
+        <div>
+          {event.name}
+        </div>
+        <div>
+          {event.url}
+        </div>
+        <div>
+          {event.rating}
+        </div>
+      </div>;
+    } else {
+      renderTags = null;
+    }
 
   } else {
     var renderTags = null;
