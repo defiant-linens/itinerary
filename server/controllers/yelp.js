@@ -60,8 +60,3 @@ exports.requestYelp = function(set_parameters, callback) {
     return callback(error, response, body);
   });
 };
-
-
-exports.requestYelp(options, function(err, resp, body) {
-  console.log(JSON.parse(body));
-});
