@@ -31,10 +31,10 @@ class LocationItineraryView extends React.Component {
         });
     }.bind(this);
 
-    this.saveItinerary = (event, itinerary) => {
-      window.fromItinId = itinerary.id;
-      this.props.saveItinerary(event);
-    }
+    // this.saveItinerary = (event, itinerary) => {
+    //   window.fromItinId = itinerary.id;
+    //   this.props.saveItinerary(event);
+    // }
   }
 
   componentDidMount() {
@@ -56,12 +56,25 @@ class LocationItineraryView extends React.Component {
       <div className="itineraries">
         {this.state.itineraries.map(itinerary => { 
           return (
-            <div>
-              <Summary data={itinerary} />
-              <div className="btn btn-success" onClick={(event) => this.saveItinerary(event, itinerary)}>Use this Itinerary</div>
-            </div>
+            <ExpandedItineraryView itinerary={itinerary} saveItinerary={this.props.saveItinerary} usable={true}/>
           )})}
       </div>
     );
   }
+
+  // render() {
+  //   return (
+  //     // Add search functionality here (filter itineraries)
+  //     <div className="itineraries">
+  //       {this.state.itineraries.map(itinerary => { 
+  //         return (
+  //           <div>
+  //             <Summary data={itinerary} />
+  //             <div className="btn btn-success" onClick={(event) => this.saveItinerary(event, itinerary)}>Use this Itinerary</div><span>&nbsp;</span>
+  //             <div className="btn btn-success">Expand View</div>
+  //           </div>
+  //         )})}
+  //     </div>
+  //   );
+  // }
 };
