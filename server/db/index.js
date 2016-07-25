@@ -88,6 +88,10 @@ var Event = sequelize.define('Event', {
   review: {
     type: Sequelize.DECIMAL(10,2),
     allowNull: true
+  },
+  categories: {
+    type: Sequelize.STRING(255),
+    allowNull: true
   }
 });
 

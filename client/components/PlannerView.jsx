@@ -50,7 +50,8 @@ class PlannerView extends React.Component {
           slot: 1,
           image: 'http://sites.msdwt.k12.in.us/jfeeney/wp-content/uploads/sites/15/2014/07/worldwide-travel-nurse-advantages.jpg',
           url: 'http://www.yelp.com/biz/chefs-dog-house-newington',
-          snippet: 'great',
+          snippet: 'Great',
+          categories: 'Restaurants',
           review: 4.5
         }]
       };

@@ -1,8 +1,10 @@
 node_modules
 data/*
-server/controllers/secrets.js
 
 # Compiled files
 public/components/*
 # Secret files
 server/controllers/secrets.js
+
+.DS_Store
+public/.DS_Store

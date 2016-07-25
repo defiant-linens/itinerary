@@ -196,6 +196,7 @@ module.exports = {
             url: event.url,
             snippet: event.snippet,
             review: event.review,
+            categories: event.categories,
             ItineraryId: itinerary.dataValues.id
           });
         });
