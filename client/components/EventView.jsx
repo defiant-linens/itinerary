@@ -1,11 +1,12 @@
 var EventView = (props) => {
-  console.log('this are the events', props.yelpEvents)
-  if (props.yelpEvents.length > 0) {
+
+  if (props.events.length > 0) {
+    
     // The day (d) is index 1, event (e) is index 0
     var d = props.day;
     var e = props.eventID;
     var index = 3 * (d - 1) + e;
-    var event = props.yelpEvents[index];
+    var event = props.events[index];
 
     var renderTags = <div className="panel panel-success">
       <div className="panel-heading">

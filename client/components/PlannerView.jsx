@@ -42,6 +42,9 @@ class PlannerView extends React.Component {
     this.saveItinerary = event => {
       event.preventDefault();
 
+      // TODO
+      var eventsToSave = this.state.events;
+
       var data = {
         id: 31,
         events: [{
@@ -140,7 +143,7 @@ class PlannerView extends React.Component {
 
         <div>
         {_.range(1, this.state.numDays + 1).map((day) => {
-            return (<DayView day={day} yelpEvents={this.state.events}/>);
+            return (<DayView day={day} events={this.state.events}/>);
           }
         )}
         </div>

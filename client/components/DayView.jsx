@@ -5,7 +5,7 @@ var DayView = (props) => {
 
       <div>
         {_.range(0, 3).map((eventID) => 
-          <EventView eventID={eventID} yelpEvents={props.yelpEvents} day={props.day}/>
+          <EventView eventID={eventID} events={props.events} day={props.day}/>
         )}
       </div>
 
