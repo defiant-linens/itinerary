@@ -22,7 +22,11 @@ class LoginView extends React.Component {
       }, this)
         .then(res => {
           console.log('Successful clientside POST-request', res);
-          window.user = this.state.username;
+          if(url === 'http://localhost:3000/classes/login' && res.status === 201) {
+            window.user = this.state.username;
+            console.log('redirecting');
+            window.location.hash = 'landing';
+          }
         })
         .catch(err => {
           console.log(err);
