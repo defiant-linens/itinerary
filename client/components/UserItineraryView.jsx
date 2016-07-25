@@ -20,8 +20,8 @@ class UserItineraryView extends React.Component {
           'Content-Type': 'application/json'
         },
         credentials: 'same-origin',
-        method: method,
-        body: JSON.stringify(data)
+        method: 'POST',
+        body: JSON.stringify({user: window.user})
       }, this)
         .then(res => {
           return res.json();

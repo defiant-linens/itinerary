@@ -83,7 +83,7 @@ module.exports = {
   },
   itineraries: {
     get: function(req, res) {
-      db.Itinerary.findAll({})
+      db.Itinerary.findAll({include: [db.User]})
       .then(function(itineraries) {
         res.json(itineraries);
       });
@@ -114,21 +114,29 @@ module.exports = {
       });
     },
     getUserItineraries: function(req, res) {
+      console.log('in userItins', req.body);
       db.User.findOne({
         where: {
           name: req.body.user
         }
       })
       .then(function(user) {
+        console.log('user', user);
         db.Itinerary.findAll({
           where: {
             UserId: user.dataValues.id
-          }
+          },
+          include: [db.User]
         })
+        .then(function(itineraries) {
+          console.log(itineraries);
+          res.json(itineraries);
+        });
       })
-      .then(function(itineraries) {
-        res.json(itineraries);
-      })
+      // .then(function(itineraries) {
+      //   console.log(itineraries);
+      //   res.json(itineraries);
+      // });
     }
   },
   itinerary: {
