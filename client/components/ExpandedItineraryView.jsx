@@ -51,7 +51,7 @@ class ExpandedItineraryView extends React.Component {
     var getEvents = () => {
       console.log('itinerary', this.props.itinerary);
       this.serverRequest(
-        'http://localhost:3000/classes/itineraryEvents',
+        '/classes/itineraryEvents',
         {id: this.props.itinerary.id},
         function(data) {
           console.log()
