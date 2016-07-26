@@ -9,7 +9,7 @@ class ChoosePlannerView extends React.Component {
       startDate: '',
       endDate: '',
       numDays: 0,
-      overview: 'hardcode',
+      overview: '',
       showList: false,
       listLocation: ''
     };
