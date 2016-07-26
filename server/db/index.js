@@ -1,13 +1,8 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('wonderwander', 'root', null, {
-  dialect: 'mysql',
+var sequelize = new Sequelize('legacy', null, null, {
+  protocol: 'postgres',
+  dialect: 'postgres',
   host: 'localhost',
-  port: 3306,
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 1000
-  },
   define: {
     timestamps: false,
   }
