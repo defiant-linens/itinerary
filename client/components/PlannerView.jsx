@@ -55,16 +55,12 @@ class PlannerView extends React.Component {
           location: this.state.location,
           name: e.name,
           slot: (index % 3),
-          image: e.image_url,
+          image: e.image,
           url: e.url,
-          snippet: e.snippet_text,
-          review: e.rating
+          snippet: e.snippet,
+          categories: e.categories,
+          address: e.address
         };
-        
-        // Convert categories into a string
-        eventToSave['categories'] = _.map(e['categories'], function(cat) {
-          return cat[0];
-        }).join(', ');
 
         return eventToSave;
       });
@@ -117,48 +113,55 @@ class PlannerView extends React.Component {
             };
             that.setState(newState);
             console.log(that.state.events);
-            window.fromItinId = undefined;
+            // window.fromItinId = undefined;
           }
         );
       }
 
       // Get events from yelp
-      else {
-        this.serverRequest(
-          'http://localhost:3000/classes/events',
-          {location: that.state.location},
-          function(data) {
 
-            // Make the events from yelp nice
-            var formattedYelp = _.map(data.eventsFromYelp, function(yelpEvent) {
-              var formatted = {
-                name: yelpEvent['name'],
-                image: yelpEvent['image_url'],
-                url: yelpEvent['url'],
-                snippet: yelpEvent['snippet_text'],
-                rating: yelpEvent['rating_img_url'],
-                address: yelpEvent['location']['display_address'][0] + ', ' + yelpEvent['location']['display_address'][1]
-              };
+      this.serverRequest(
+        'http://localhost:3000/classes/events',
+        {location: that.state.location},
+        function(data) {
 
-              formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
-                return cat[0];
-              }).join(', ');
+          // Make the events from yelp nice
+          var formattedYelp = _.map(data.eventsFromYelp, function(yelpEvent) {
+            var formatted = {
+              name: yelpEvent['name'],
+              image: yelpEvent['image_url'],
+              url: yelpEvent['url'],
+              snippet: yelpEvent['snippet_text'],
+              rating: yelpEvent['rating_img_url'],
+              address: yelpEvent['location']['display_address'][0] + ', ' + yelpEvent['location']['display_address'][1]
+            };
 
-              return formatted;
-            });
+            formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
+              return cat[0];
+            }).join(', ');
 
-            console.log(data.eventsFromYelp);
-            console.log('Formatted Yelp: ' + formattedYelp);
+            return formatted;
+          });
 
+          console.log(data.eventsFromYelp);
+          console.log('Formatted Yelp: ' + formattedYelp);
+          if (window.fromItinId) {
+            var newState = {
+              yelpEvents: formattedYelp,
+              selected: formattedYelp[0].name
+            }
+          } else {
             var newState = {
               events: formattedYelp, 
-              yelpEvents: formattedYelp
+              yelpEvents: formattedYelp,
+              selected: formattedYelp[0].name
             };
-            console.log(newState);
-            that.setState(newState);
           }
-        );
-      }
+          console.log(newState);
+          that.setState(newState);
+          window.fromItinId = undefined;
+        }
+      );
     };
 
     var that = this;
@@ -181,39 +184,43 @@ class PlannerView extends React.Component {
 
   render() {
     return (
+
       <div>
-        <h4>Your trip to {this.state.location}:</h4>
-        <div>
-        <select onChange={this.handleChange} id="selected">
-          {this.state.events.map(event => {
-             return <option>{event.name}</option>;
-           })}
-        </select>
-        <select onChange={this.handleChange} id="day">
-          {_.range(1, this.state.numDays + 1).map(day => {
-             return <option>{day}</option>;
-           })}
-        </select>
-        <select onChange={this.handleChange} id="slot">
-          {_.range(1, 4).map(slot => {
-             return <option>{slot}</option>;
-           })}
-        </select>
-        <button onClick={this.swap}>Swap</button>
-        </div>
+
         <h4>Your trip to {this.state.location}.</h4>
+
+        <div>
+          <select onChange={this.handleChange} id="selected">
+            {this.state.yelpEvents.map(event => {
+               return <option>{event.name}</option>;
+             })}
+          </select>
+          <select onChange={this.handleChange} id="day">
+            {_.range(1, this.state.numDays + 1).map(day => {
+               return <option>{day}</option>;
+             })}
+          </select>
+          <select onChange={this.handleChange} id="slot">
+            {_.range(1, 4).map(slot => {
+               return <option>{slot}</option>;
+             })}
+          </select>
+
+          <button onClick={this.swap}>Swap</button>
+        </div>
+
+        
         <div>
         {_.range(1, this.state.numDays + 1).map((day) => {
             return (<DayView day={day} events={this.state.events}/>);
           }
         )}
-      <div>
-      {_.range(1, this.state.numDays + 1).map((day) => {
-        return (<DayView day={day} yelpEvents={this.state.events}/>);
-      }
-      )}
         </div>
-        <button onClick={this.saveItinerary}>Save Itinerary</button>
+
+        <div>
+          <button onClick={this.saveItinerary}>Save Itinerary</button>
+        </div>
+
       </div>
     );
   }
