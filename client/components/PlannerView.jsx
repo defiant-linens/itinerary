@@ -61,7 +61,7 @@ class PlannerView extends React.Component {
           categories: e.categories,
           address: e.address
         };
-        
+
         return eventToSave;
       });
 
@@ -113,49 +113,55 @@ class PlannerView extends React.Component {
             };
             that.setState(newState);
             console.log(that.state.events);
-            window.fromItinId = undefined;
+            // window.fromItinId = undefined;
           }
         );
       }
 
       // Get events from yelp
-      else {
-        this.serverRequest(
-          'http://localhost:3000/classes/events',
-          {location: that.state.location},
-          function(data) {
 
-            // Make the events from yelp nice
-            var formattedYelp = _.map(data.eventsFromYelp, function(yelpEvent) {
-              var formatted = {
-                name: yelpEvent['name'],
-                image: yelpEvent['image_url'],
-                url: yelpEvent['url'],
-                snippet: yelpEvent['snippet_text'],
-                rating: yelpEvent['rating_img_url'],
-                address: yelpEvent['location']['display_address'][0] + ', ' + yelpEvent['location']['display_address'][1]
-              };
+      this.serverRequest(
+        'http://localhost:3000/classes/events',
+        {location: that.state.location},
+        function(data) {
 
-              formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
-                return cat[0];
-              }).join(', ');
+          // Make the events from yelp nice
+          var formattedYelp = _.map(data.eventsFromYelp, function(yelpEvent) {
+            var formatted = {
+              name: yelpEvent['name'],
+              image: yelpEvent['image_url'],
+              url: yelpEvent['url'],
+              snippet: yelpEvent['snippet_text'],
+              rating: yelpEvent['rating_img_url'],
+              address: yelpEvent['location']['display_address'][0] + ', ' + yelpEvent['location']['display_address'][1]
+            };
 
-              return formatted;
-            });
+            formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
+              return cat[0];
+            }).join(', ');
 
-            console.log(data.eventsFromYelp);
-            console.log('Formatted Yelp: ' + formattedYelp);
+            return formatted;
+          });
 
+          console.log(data.eventsFromYelp);
+          console.log('Formatted Yelp: ' + formattedYelp);
+          if (window.fromItinId) {
+            var newState = {
+              yelpEvents: formattedYelp,
+              selected: formattedYelp[0].name
+            }
+          } else {
             var newState = {
               events: formattedYelp, 
               yelpEvents: formattedYelp,
               selected: formattedYelp[0].name
             };
-            console.log(newState);
-            that.setState(newState);
           }
-        );
-      }
+          console.log(newState);
+          that.setState(newState);
+          window.fromItinId = undefined;
+        }
+      );
     };
 
     var that = this;

@@ -4,8 +4,6 @@ class ExpandedItineraryView extends React.Component {
     super(props);
 
     this.state = {
-      location: 'San Francisco',
-      numDays: 3,
       events: [],
       expand: false
     };
@@ -56,6 +54,7 @@ class ExpandedItineraryView extends React.Component {
         'http://localhost:3000/classes/itineraryEvents',
         {id: this.props.itinerary.id},
         function(data) {
+          console.log()
           var newState = {
             events: data
           };
@@ -102,7 +101,7 @@ class ExpandedItineraryView extends React.Component {
           this.state.expand ?
           <div>
             {_.range(1, this.props.itinerary.numDays + 1).map((day) => {
-                return (<DayView day={day} yelpEvents={this.state.events}/>);
+                return (<DayView day={day} events={this.state.events}/>);
               }
             )}
           </div>
