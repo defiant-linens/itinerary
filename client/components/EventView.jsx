@@ -7,7 +7,6 @@ var EventView = (props) => {
     var e = props.eventID;
     var index = 3 * (d - 1) + e;
     var event = props.events[index];
-    console.log(event.rating);
     var categoryArray = event.categories.split(', ');
 
     var renderTags = <div className="panel panel-success">
