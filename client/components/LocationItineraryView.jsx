@@ -38,7 +38,7 @@ class LocationItineraryView extends React.Component {
   }
 
   componentDidMount() {
-    this.serverRequest = this.postLocationItineraries('http://localhost:3000/classes/locationItineraries', {location: this.props.location});
+    this.serverRequest = this.postLocationItineraries('/classes/locationItineraries', {location: this.props.location});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,7 +46,7 @@ class LocationItineraryView extends React.Component {
     if (nextProps.location !== this.props.location) {
       this.setState({ location: nextProps.location });
       console.log('posting');
-      this.postLocationItineraries('http://localhost:3000/classes/locationItineraries', {location: nextProps.location});
+      this.postLocationItineraries('/classes/locationItineraries', {location: nextProps.location});
     }
   }
 

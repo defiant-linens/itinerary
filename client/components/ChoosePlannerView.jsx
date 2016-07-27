@@ -49,7 +49,7 @@ class ChoosePlannerView extends React.Component {
         numDays: parseInt(this.state.numDays, 10),
         overview: this.state.overview
       };
-      this.serverRequest('http://localhost:3000/classes/itineraries', data);
+      this.serverRequest('/classes/itineraries', data);
     };
 
     this.handleInputChange = event => {

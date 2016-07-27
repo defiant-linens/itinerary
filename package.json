@@ -5,8 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server/app.js",
-    "build": "babel client/components --watch --out-dir public/components --presets=es2015,react --source-maps inline",
-    "test": "node test/test.js"
+    "build:dev": "babel client/components --watch --out-dir public/components --presets=es2015,react --source-maps inline",
+    "build:prod": "babel client/components --out-dir public/components --presets=es2015,react --source-maps inline",
+    "test": "node test/test.js",
+    "postinstall": "npm run build:prod"
   },
   "repository": {
     "type": "git",

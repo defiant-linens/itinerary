@@ -70,7 +70,7 @@ class PlannerView extends React.Component {
         events: eventsToSave
       };
 
-      this.serverRequest('http://localhost:3000/classes/save', data);
+      this.serverRequest('/classes/save', data);
     };
 
     this.handleChange = event => {
@@ -105,7 +105,7 @@ class PlannerView extends React.Component {
       // Get events saved events from the database
       if (window.fromItinId) {
         this.serverRequest(
-          'http://localhost:3000/classes/itineraryEvents',
+          '/classes/itineraryEvents',
           {id: window.fromItinId},
           function(data) {
             var newState = {
@@ -121,7 +121,7 @@ class PlannerView extends React.Component {
       // Get events from yelp
 
       this.serverRequest(
-        'http://localhost:3000/classes/events',
+        '/classes/events',
         {location: that.state.location},
         function(data) {
 
@@ -167,7 +167,7 @@ class PlannerView extends React.Component {
     var that = this;
     // Get itinerary
     this.serverRequest(
-      'http://localhost:3000/classes/itinerary', 
+      '/classes/itinerary', 
       {id: window.newItinerary},
       function(data) {
         console.log(data);
