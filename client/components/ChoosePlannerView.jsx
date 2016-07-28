@@ -9,118 +9,212 @@ class ChoosePlannerView extends React.Component {
       startDate: '',
       endDate: '',
       numDays: 0,
-      overview: '',
       showList: false,
-      listLocation: ''
+      listLocation: '',
+      yelpEvents: [],
+      events: [],
+      day: '1',
+      slot: '1',
+      selected: '',
+      itineraryId: null
     };
+  }
 
-    this.serverRequest = function ajax(url, data) {
-      // If second parameter is empty function performs a GET request
-      var method = data === undefined ? 'GET' : 'POST';
-      fetch(url, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: 'same-origin',
-        method: method,
-        body: JSON.stringify(data)
-      }, this)
-        .then(res => {
-          console.log('Successful clientside POST-request');
-          return res.json();
-        })
-        .then(json => {
-          window.newItinerary = json.id;
-          window.location.hash = '#/planner';
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }.bind(this);
+  handleInputChange(event) {
+    var targetID = event.target.id;
+    var targetValue = event.target.value;
 
-    this.saveItinerary = event => {
-      event.preventDefault();
-      var data = {
-        user: this.state.user,
-        location: this.state.location,
-        startDate: this.state.startDate,
-        endDate: this.state.endDate,
-        numDays: parseInt(this.state.numDays, 10),
-        overview: this.state.overview
+    var newState = {};
+    newState[targetID] = targetValue;
+
+    // Calculate the number of days in the itinerary
+    this.setState(newState, function() {
+      if (targetID === 'startDate' || targetID === 'endDate') {
+        this.setState({numDays: this.getDateDiff()});
+      }        
+    });
+  };
+
+
+  getDateDiff() {
+    var start = this.state.startDate;
+    var end = this.state.endDate;
+    var dayInMilliseconds = 1000 * 60 * 60 * 24
+    if (start && end) {
+      var startDate = new Date(start);
+      var endDate = new Date(end);
+      //If the start and end dates are the same day
+      //It still implies that the user will be in the city for 1 day
+      var numDays = 1 + (endDate.getTime() - startDate.getTime()) / dayInMilliseconds;
+    }
+
+    return (numDays && numDays > 0) ? numDays : 0;
+  };
+
+  serverRequest(url, data, callback) {
+    // If second parameter is empty function performs a GET request
+    var method = data === undefined ? 'GET' : 'POST';
+    fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      method: method,
+      body: JSON.stringify(data)
+    })
+    .then(res => {
+      console.log('Successful clientside POST-request');
+      return res.json();
+    })
+    .then(json => {
+      callback(json);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  getItinerary() {
+    console.log('getting itinerary')
+    this.serverRequest(
+      '/classes/events',
+      { location: this.state.location },
+      this.formatYelpData.bind(this)
+    );
+  }
+
+  swap() {
+    var day = parseInt(this.state.day, 10) - 1;
+    var slot = parseInt(this.state.slot, 10) - 1;
+
+    var index = 3 * day + slot;
+    var target = _.find(this.state.events, event => {
+      return event.name === this.state.selected;
+    });
+    var targetIdx = _.findIndex(this.state.events, event => {
+      return event.name === this.state.selected;
+    });
+    var newEvents = this.state.events.slice();
+    var temp = newEvents[index];
+    newEvents[index] = target;
+    newEvents[targetIdx] = temp;
+    this.setState({events: newEvents});
+  };
+
+  handleChange(event) {
+    var newState = {};
+    newState[event.target.id] = event.target.value;
+    this.setState(newState);
+  };
+
+  formatYelpData(data) {
+    // Make the events from yelp nice
+    var formattedYelp = _.map(data.eventsFromYelp, function(yelpEvent) {
+      var formatted = {
+        name: yelpEvent['name'],
+        image: yelpEvent['image_url'],
+        url: yelpEvent['url'],
+        snippet: yelpEvent['snippet_text'],
+        rating: yelpEvent['rating_img_url'],
+        address: yelpEvent['location']['display_address'][0] + ', ' + yelpEvent['location']['display_address'][1]
       };
-      this.serverRequest('/classes/itineraries', data);
+
+      formatted['categories'] = _.map(yelpEvent['categories'], function(cat) {
+        return cat[0];
+      }).join(', ');
+
+      return formatted;
+    });
+
+        
+    var newState = {
+      events: formattedYelp, 
+      yelpEvents: formattedYelp,
+      selected: formattedYelp[0].name
     };
+      
+    this.setState(newState);
+    window.fromItinId = undefined;
+  }
 
-    this.handleInputChange = event => {
-      var targetID = event.target.id;
-      var targetValue = event.target.value;
+  saveItinerary() {
+    console.log('in the intinerary save');
+    event.preventDefault();
 
-      var newState = {};
-      newState[targetID] = targetValue;
+    var eventsToSave = _.map(this.state.events, (e, index) => {
+      var eventToSave = {
+        day: (Math.floor(index / 3) + 1),
+        location: this.state.location,
+        name: e.name,
+        slot: (index % 3),
+        image: e.image,
+        url: e.url,
+        snippet: e.snippet,
+        categories: e.categories,
+        address: e.address
+      };
+      return eventToSave;
+    });
 
-      // Calculate the number of days in the itinerary
-      this.setState(newState, function() {
-        if (targetID === 'startDate' || targetID === 'endDate') {
-          this.setState({numDays: this.getDateDiff()});
-        }        
-      });
+    var data = {
+      id: this.state.itineraryId,
+      events: eventsToSave,
+      user: this.state.user,
+      location: this.state.location,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      numDays: this.state.numDays
     };
-
-    this.getDateDiff = () => {
-      var start = this.state.startDate;
-      var end = this.state.endDate;
-
-      if (start && end) {
-        var startDate = new Date(start.slice(0,4), start.slice(5,7), start.slice(8,10), 0, 0, 0, 0);
-        var endDate = new Date(end.slice(0,4), end.slice(5,7), end.slice(8,10), 0, 0, 0, 0);
-        var numDays = 1 + (endDate.getTime() - startDate.getTime())/(1000 * 60 * 60 * 24);
-      }
-
-      return (numDays && numDays > 0) ? numDays : 0;
-    };
-
-    this.showLocationItineraries = function() {
+    this.serverRequest('/classes/itineraries', data, (json) => {
       this.setState({
-        showList: true,
-        listLocation: this.state.location
-      });
-      console.log('showList true');
-    }.bind(this);
+        itineraryId: json.id
+      })
+    });
   }
 
   render() {
     return (
-      <div className="container centerText">
-        <form>
-          <h2>Where will your travels take you?</h2>
-          <div className='row'>
-            <label>
-              Destination:
-              <div className="input-group">
-                <input type='text' value={this.state.location} onChange={this.handleInputChange} id="location"></input>
-              </div>
-            </label>
-            <p></p>
-            <label>
-              Start Date:
-              <input type='date' value={this.state.start} onChange={this.handleInputChange} id="startDate"></input>
-            </label>
-            <p></p>
-            <label>
-              End Date:
-              <input type='date' value={this.state.end} onChange={this.handleInputChange} id="endDate"></input>
-            </label>
+      <div>
+        <div className="container centerText">
+          <form>
+            <h2>Where will your travels take you?</h2>
+            <div className='row'>
+              <label>
+                Destination:
+                <div className="input-group">
+                  <input type='text' value={this.state.location} onChange={this.handleInputChange.bind(this)} id="location"></input>
+                </div>
+              </label>
+              <p></p>
+              <label>
+                Start Date:
+                <input type='date' value={this.state.start} onChange={this.handleInputChange.bind(this)} id="startDate"></input>
+              </label>
+              <p></p>
+              <label>
+                End Date:
+                <input type='date' value={this.state.end} onChange={this.handleInputChange.bind(this)} id="endDate"></input>
+              </label>
+            </div>
+          </form>
+          <p></p>
+          <div className='planner-prefs'>
+            <button className="btn btn-success" onClick={this.getItinerary.bind(this)}>Blank Itinerary</button>
+            <button className="btn btn-success" onClick={this.getItinerary.bind(this)}>Preference-Based Itinerary</button>
           </div>
-        </form>
-        <p></p>
-        <div className='planner-prefs'>
-          <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Blank Itinerary</Link><span>   </span>
-          <Link to='/' className="btn btn-success" onClick={this.saveItinerary}>Preference-Based Itinerary</Link><span>   </span>
-          <div className="btn btn-success" onClick={this.showLocationItineraries}>Use Someone Else's</div>
         </div>
-
-        { this.state.showList ? <LocationItineraryView location={this.state.listLocation} saveItinerary={this.saveItinerary} /> : null }
+        <div>
+          <PlannerView 
+            location={this.state.location} 
+            numDays={this.state.numDays} 
+            yelpEvents={this.state.yelpEvents} 
+            events={this.state.events} 
+            swap={this.swap.bind(this)}
+            handleChange={this.handleChange.bind(this)}
+            saveItinerary={this.saveItinerary.bind(this)}
+          />
+        </div>
       </div>
     );
   }
