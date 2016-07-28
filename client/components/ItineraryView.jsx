@@ -33,7 +33,7 @@ class ItineraryView extends React.Component {
         .catch(err => {
           console.log(err);
         });
-    }.bind(this)('http://localhost:3000/classes/itineraries');
+    }.bind(this)('/classes/itineraries');
   }
   render() {
     return (

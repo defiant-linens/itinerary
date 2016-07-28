@@ -31,7 +31,7 @@ class UserItineraryView extends React.Component {
         .catch(err => {
           console.log(err);
         });
-    }.bind(this)('http://localhost:3000/classes/userItineraries');
+    }.bind(this)('/classes/userItineraries');
   }
   render() {
     return (

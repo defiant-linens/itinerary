@@ -94,22 +94,65 @@ module.exports = {
     },
     post: function(req, res) {
       console.log('Incoming post request!');
+      //Check if user exists
       db.User.findOne({
         where: {
           name: req.body.user
         }
       })
       .then(function(user) {
-        return db.Itinerary.create({
-          location: req.body.location,
-          UserId: user.dataValues.id,
-          numDays: req.body.numDays,
-          startDate: req.body.startDate,
-          endDate: req.body.endDate,
-          overview: req.body.overview
+        //find and upate or create new itinerary
+        return db.Itinerary.findOrCreate({
+          where: {
+            location: req.body.location,
+            UserId: user.dataValues.id,
+            numDays: req.body.numDays,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate  
+          }
         });
       })
-      .then(function(itinerary) {
+      .spread(function(itinerary, created) {
+        //If the itinerary is new
+        if (created) {
+          req.body.events.forEach(function(event) {
+            return db.Event.create({
+              day: event.day,
+              location: event.location,
+              name: event.name,
+              slot: event.slot,
+              image: event.image,
+              url: event.url,
+              snippet: event.snippet,
+              categories: event.categories,
+              address: event.address,
+              ItineraryId: itinerary.dataValues.id
+            });
+          });
+        } else {
+          db.Event.destroy({
+            where: {
+              ItineraryId: itinerary.dataValues.id
+            }
+          })
+          .then(function() {
+          // Then saves new event configuration
+            req.body.events.forEach(function(event) {
+              return db.Event.create({
+                day: event.day,
+                location: event.location,
+                name: event.name,
+                slot: event.slot,
+                image: event.image,
+                url: event.url,
+                snippet: event.snippet,
+                categories: event.categories,
+                address: event.address,
+                ItineraryId: itinerary.dataValues.id
+              });
+            });
+          })
+        }
         var resObj = {
           id: itinerary.dataValues.id
         };
