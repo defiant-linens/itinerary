@@ -94,12 +94,14 @@ module.exports = {
     },
     post: function(req, res) {
       console.log('Incoming post request!');
+      //Check if user exists
       db.User.findOne({
         where: {
           name: req.body.user
         }
       })
       .then(function(user) {
+        //find and upate or create new itinerary
         return db.Itinerary.findOrCreate({
           where: {
             location: req.body.location,
