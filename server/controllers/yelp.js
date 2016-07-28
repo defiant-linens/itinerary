@@ -4,7 +4,7 @@ var n = require('nonce')();
 var request = require('request');
 var qs = require('querystring');
 var _ = require('lodash');
-var secrets = require('./secrets').secrets;
+require('dotenv').config();
 
 /* Function for yelp call
  * ------------------------
@@ -27,8 +27,8 @@ exports.requestYelp = function(set_parameters, callback) {
 
   /* We set the require parameters here */
   var required_parameters = {
-    oauth_consumer_key : secrets.oauth_consumer_key,
-    oauth_token : secrets.oauth_token,
+    oauth_consumer_key : process.env.CONSUMER_KEY,
+    oauth_token : process.env.TOKEN,
     oauth_nonce : n(),
     oauth_timestamp : n().toString().substr(0,10),
     oauth_signature_method : 'HMAC-SHA1',
@@ -39,8 +39,8 @@ exports.requestYelp = function(set_parameters, callback) {
   var parameters = _.assign(default_parameters, set_parameters, required_parameters);
 
   /* We set our secrets here */
-  var consumerSecret = secrets.consumerSecret;
-  var tokenSecret = secrets.tokenSecret;
+  var consumerSecret = process.env.CONSUMER_SECRET;
+  var tokenSecret = process.env.TOKEN_SECRET;
 
   /* Then we call Yelp's Oauth 1.0a server, and it returns a signature */
   /* Note: This signature is only good for 300 seconds after the oauth_timestamp */

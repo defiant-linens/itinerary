@@ -1,17 +1,21 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('wonderwander', 'root', null, {
-  dialect: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 1000
-  },
-  define: {
-    timestamps: false,
-  }
-});
+
+if (process.env.DATABASE_URL) {
+  var sequelize = new Sequelize(process.env.DATABASE_URL, {
+    protocol: 'postgres',
+    dialect: 'postgres',
+    host: process.env.DATABASE_URL.split(':')[2]
+  })
+} else {
+  var sequelize = new Sequelize('legacy', null, null, {
+    protocol: 'postgres',
+    dialect: 'postgres',
+    host: 'localhost',
+    define: {
+      timestamps: false,
+    }
+  });
+}
 
 /************************************************
 // User table

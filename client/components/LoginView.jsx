@@ -22,7 +22,7 @@ class LoginView extends React.Component {
       }, this)
         .then(res => {
           console.log('Successful clientside POST-request', res);
-          if(url === 'http://localhost:3000/classes/login' && res.status === 201) {
+          if(url === '/classes/login' && res.status === 201) {
             window.user = this.state.username;
             console.log('redirecting');
             window.location.hash = 'landing';
@@ -47,12 +47,12 @@ class LoginView extends React.Component {
         username: this.state.username,
         password: this.state.password
       };
-      this.serverRequest('http://localhost:3000/classes/login', data);
+      this.serverRequest('/classes/login', data);
     };
 
     this.logout = event => {
       console.log('logging out');
-      this.serverRequest('http://localhost:3000/classes/logout');
+      this.serverRequest('/classes/logout');
     }
 
   }
